@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Desk Arduino Build and Upload",
+            "command": "upload/upload.bat",
+            "type": "shell",
+            "problemMatcher": []
+        }
+    ]
+}

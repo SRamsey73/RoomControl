@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /home/pi/SmartRoom2
+nohup ./main.py > nohup.out &
