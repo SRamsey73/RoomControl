@@ -1,0 +1,30 @@
+
+2020:09:27 18:12:41	 
+
+Application starting...
+2020:09:27 18:12:43	 desk_controller: Desk Arduino Initialized
+2020:09:27 18:12:43	 desk_controller: temperature_sensor:temperature:81
+2020:09:27 18:12:43	 desk_controller: light_sensor:light_level:789
+2020:09:27 18:12:43	 desk_controller: occupancy_sensor:occupied:true
+2020:09:27 18:12:43	 basement_controller: Basement Arduino Begin
+2020:09:27 18:12:43	 basement_controller: overhead_light:state:off
+2020:09:27 18:12:43	 basement_controller: overhead_light:brightness:100
+2020:09:27 18:12:43	 basement_controller: ceiling_fan:state:off
+2020:09:27 18:12:43	 basement_controller: ceiling_fan:speed:low
+2020:09:27 18:12:46	 Connection to BASEMENT_CONTROLLER closed.
+2020:09:27 18:12:46	 Connection to DESK_CONTROLLER closed.
+2020:09:27 18:18:52	 
+
+Application start
+2020:09:27 18:18:54	 desk_controller: Desk Arduino Initialized
+2020:09:27 18:18:54	 desk_controller: temperature_sensor:temperature:81
+2020:09:27 18:18:54	 desk_controller: light_sensor:light_level:749
+2020:09:27 18:18:54	 desk_controller: occupancy_sensor:occupied:true
+2020:09:27 18:18:54	 basement_controller: Basement Arduino Begin
+2020:09:27 18:18:54	 basement_controller: overhead_light:state:off
+2020:09:27 18:18:54	 basement_controller: overhead_light:brightness:100
+2020:09:27 18:18:54	 basement_controller: ceiling_fan:state:off
+2020:09:27 18:18:54	 basement_controller: ceiling_fan:speed:low
+2020:09:27 18:18:55	 Connection to TABLETS closed.
+2020:09:27 18:18:55	 Connection to BASEMENT_CONTROLLER closed.
+2020:09:27 18:18:55	 Connection to DESK_CONTROLLER closed.
