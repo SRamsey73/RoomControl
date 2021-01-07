@@ -14,7 +14,6 @@ void Fan::setState(uint8_t state)
 			//Updates to make if state is bring changed to on
 			else if (state == ON) {
 				//Close state relay
-				sendSerial("ceiling fan set to on");
 				digitalWrite(devicePins[STATE_PIN], LOW);
 			}
 
@@ -22,10 +21,10 @@ void Fan::setState(uint8_t state)
 			this->state = state;
 
 			//Send new state over serial
-			if (state == OFF) {
+			if (this->state == OFF) {
 				sendCallString("state", "off");
 			}
-			else if (state == ON) {
+			else if (this->state == ON) {
 				sendCallString("state", "on");
 			}
 		}
@@ -93,27 +92,16 @@ void Fan::setSpeed(const char* speed)
 
 }
 
-void Fan::onUpdate(const unsigned long* elapsedTime)
+void Fan::onUpdate(unsigned long elapsedTime)
 {
 }
 
-bool Fan::callRemoteFunctionByIndex(size_t functionIndex, const char* param)
-{
-	//Check that function index is within range before calling function
-	if (functionIndex <= sizeof(remoteFunctions) / sizeof(RemoteFunction)) {
-		//Call to remote function
-		((*this).*(remoteFunctions[functionIndex]))(param);
-		//Call successful return true
-		return true;
-	}
-	else {
-		//Call failed return false
-		return false;
-	}
-}
 
-Fan::Fan(const char* name, const uint8_t fanType, const uint8_t devicePins[NUM_DEVICE_PINS]) : Peripheral::Peripheral(name, remoteFuncNames, numberOfRemoteFuncs)
+Fan::Fan(const char* name, const uint8_t fanType, const uint8_t devicePins[NUM_DEVICE_PINS]) : Peripheral::Peripheral(name)
 {
+	//Register remote functions
+	registerRemoteFunctions(fanRemoteFunctionMap);
+
 	//Copy contents of devicePins
 	for(unsigned int i = 0; i < NUM_DEVICE_PINS; i++)
 		this->devicePins[i] = devicePins[i];
@@ -132,7 +120,4 @@ Fan::Fan(const char* name, const uint8_t fanType, const uint8_t devicePins[NUM_D
 	//Set default states and speeds
 	setState(OFF);
 	setSpeed(LOW_SPEED);
-
-	//setState(OFF);
-	//setSpeed(MEDIUM_SPEED);
 }

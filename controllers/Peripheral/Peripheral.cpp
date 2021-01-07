@@ -1,42 +1,57 @@
 #include "Peripheral.h"
 
 vector<Peripheral*> Peripheral::instantiatedPeripherals;
-unsigned long Peripheral::lastUpdateTime;
+unsigned long Peripheral::lastUpdateTime = 0;
 
 void Peripheral::update()
 {
-	unsigned long elapsedTime = micros() - lastUpdateTime;
+	unsigned long elapsedTime = millis() - lastUpdateTime;
+	lastUpdateTime = millis();
 	for (auto derived : instantiatedPeripherals) {
-		derived->onUpdate(&elapsedTime);
+		derived->onUpdate(elapsedTime);
 	}
-	lastUpdateTime = micros();
 }
 
 
-bool Peripheral::callRemoteFunctionByIndex(size_t functionIndex, const char* callString)
-{
-	return false;
-}
-
-int Peripheral::findRemoteFunctionIndex(const char* callString)
-{
-	for (unsigned int i = 0; i < numberOfRemoteFuncs; i++) {
-		if (strstr(callString, remoteFuncNames[i]) == callString) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-Peripheral::Peripheral(const char* name, const char** remoteFuncNames, const size_t numberOfRemoteFuncs)
-	: remoteFuncNames(remoteFuncNames), numberOfRemoteFuncs(numberOfRemoteFuncs) {
-	lastUpdateTime = micros();
+Peripheral::Peripheral(const char* name) {
 	strcpy(this->name, name);
 	instantiatedPeripherals.push_back(this);
 }
 
+
 Peripheral::~Peripheral() {
 
+}
+
+
+void Peripheral::sendCallString(const char* funcName, const char* param)
+{
+	//Allocate a buffer to send message
+	char* buff = new char[strlen(name) + strlen(funcName) + strlen(param) + 4];
+
+	//Construct string
+	strcpy(buff, name);
+	strcat(buff, ":");
+	strcat(buff, funcName);
+	strcat(buff, ":");
+	strcat(buff, param);
+
+	//Send
+	sendSerial(buff);
+
+	delete[] buff;
+}
+
+void Peripheral::sendCallString(const char* funcName, int param)
+{
+	char paramStr[12];
+	_itoa(param, paramStr, 10);
+	sendCallString(funcName, paramStr);
+}
+
+void Peripheral::registerRemoteFunctions(const RemoteFunctionMap& remoteFunctionMap)
+{
+	this->remoteFunctionMap = remoteFunctionMap;
 }
 
 bool Peripheral::callRemoteFunction(const char* callString)
@@ -64,17 +79,15 @@ bool Peripheral::callRemoteFunction(const char* callString)
 
 			//Check if derived peripheral has a matching function to the call
 			//Loop through remoteFunction names
-			for (unsigned int i = 0; i < derived->numberOfRemoteFuncs; i++) {
-				//Check if callString contains remoteFuncName, must be at begging of string
-				if (strstr(callString, derived->remoteFuncNames[i]) == callString) {
+			for (auto& item : derived->remoteFunctionMap) {
+				//Check if callString contains remoteFuncName, must be at beginning of string
+				if (strstr(callString, item.first) == callString) {
 					//Found matching function call
 					//Check that string contains the character ':' and has characters after first ':'
 					if (strchr(callString, ':') != nullptr && strlen(strchr(callString, ':')) >= 2) {
-						//Call the derived function by its index
-						//Index is obtained by passing the callString to the derived class to return its index
-						//callString is then passed to the call, but the function name is removed
-						//return result of calling function by index
-						return derived->callRemoteFunctionByIndex(derived->findRemoteFunctionIndex(callString), strchr(callString, ':') + 1);
+						//Call the derived function
+						((*derived).*(item.second))(strchr(callString, ':') + 1);
+						return true;
 					}
 					break;
 				}
@@ -82,31 +95,6 @@ bool Peripheral::callRemoteFunction(const char* callString)
 		}
 	}
 	return false;
-}
-
-void Peripheral::sendCallString(const char* funcName, const char* param)
-{
-	//Allocate a buffer to send message
-	char* buff = new char[strlen(name) + strlen(funcName) + strlen(param) + 4];
-
-	//Construct string
-	strcpy(buff, name);
-	strcat(buff, ":");
-	strcat(buff, funcName);
-	strcat(buff, ":");
-	strcat(buff, param);
-
-	//Send
-	sendSerial(buff);
-
-	delete[] buff;
-}
-
-void Peripheral::sendCallString(const char* funcName, int param)
-{
-	char paramStr[12];
-	itoa(param, paramStr, 10);
-	sendCallString(funcName, paramStr);
 }
 
 void Peripheral::sendSerial(const char* msg)

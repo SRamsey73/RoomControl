@@ -87,7 +87,7 @@ void Light::setBrightness(const char* brightness) {
 }
 
 
-void Light::onUpdate(const unsigned long* elapsedTime) //Elapsed time since last update in micros
+void Light::onUpdate(unsigned long elapsedTime) //Elapsed time since last update in millis
 {
 	//Update brightness if light is dimmable
 	if (deviceType == DIMMER_TYPE) {
@@ -101,7 +101,7 @@ void Light::onUpdate(const unsigned long* elapsedTime) //Elapsed time since last
 			}
 
 			//Equation adjusts light brightness transition to reflect human perception of linear brightness changes
-			brightness[BRIGHTNESS_ACTUAL] = pow((sqrt(brightness[BRIGHTNESS_ACTUAL] / BRIGHTNESS_MAX * BRIGHTNESS_TIME * BRIGHTNESS_TIME) + *elapsedTime / 1000.0) / BRIGHTNESS_TIME, 2) * BRIGHTNESS_MAX;
+			brightness[BRIGHTNESS_ACTUAL] = pow((sqrt(brightness[BRIGHTNESS_ACTUAL] / BRIGHTNESS_MAX * BRIGHTNESS_TIME * BRIGHTNESS_TIME) + elapsedTime) / BRIGHTNESS_TIME, 2) * BRIGHTNESS_MAX;
 			if (brightness[BRIGHTNESS_TARGET] < brightness[BRIGHTNESS_ACTUAL]) {
 				brightness[BRIGHTNESS_ACTUAL] = brightness[BRIGHTNESS_TARGET];
 			}
@@ -111,7 +111,7 @@ void Light::onUpdate(const unsigned long* elapsedTime) //Elapsed time since last
 		else if (brightness[BRIGHTNESS_TARGET] < brightness[BRIGHTNESS_ACTUAL]) {
 			//Decrease actual brightness to aproach target
 			//Equation adjusts light brightness transition to reflect human perception of linear brightness changes
-			brightness[BRIGHTNESS_ACTUAL] = pow((sqrt(brightness[BRIGHTNESS_ACTUAL] / BRIGHTNESS_MAX * BRIGHTNESS_TIME * BRIGHTNESS_TIME) - *elapsedTime / 1000.0) / BRIGHTNESS_TIME, 2) * BRIGHTNESS_MAX;
+			brightness[BRIGHTNESS_ACTUAL] = pow((sqrt(brightness[BRIGHTNESS_ACTUAL] / BRIGHTNESS_MAX * BRIGHTNESS_TIME * BRIGHTNESS_TIME) - elapsedTime) / BRIGHTNESS_TIME, 2) * BRIGHTNESS_MAX;
 			if (abs(brightness[BRIGHTNESS_TARGET] - brightness[BRIGHTNESS_ACTUAL]) < .1) {
 				brightness[BRIGHTNESS_ACTUAL] = brightness[BRIGHTNESS_TARGET];
 			}
@@ -121,25 +121,12 @@ void Light::onUpdate(const unsigned long* elapsedTime) //Elapsed time since last
 }
 
 
-bool Light::callRemoteFunctionByIndex(size_t functionIndex, const char* param)
-{
-	//Check that function index is within range before calling function
-	if (functionIndex <= sizeof(remoteFunctions) / sizeof(RemoteFunction)) {
-		//Call to remote function
-		((*this).*(remoteFunctions[functionIndex]))(param);
-		//Call successful return true
-		return true;
-	}
-	else {
-		//Call failed return false
-		return false;
-	}
-}
-
-
 Light::Light(const char* name, const uint8_t deviceType, const uint8_t devicePin)
-	: Peripheral::Peripheral(name, remoteFuncNames, numberOfRemoteFuncs)
+	: Peripheral::Peripheral(name)
 {
+	//Rgister remote functions
+	registerRemoteFunctions(lightRemoteFunctionMap);
+
 	//Set type of light (either a dimmable light or one controlled with a relay)
 	this->deviceType = deviceType;
 	//Set pin the light is controlled with

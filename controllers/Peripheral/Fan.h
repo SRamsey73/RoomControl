@@ -20,7 +20,7 @@ private:
     };
 public:
     //Fan Types
-    enum {
+    enum FanTypes {
         RELAY_TYPE,
         MULTI_SPEED_TYPE
     };
@@ -55,25 +55,15 @@ public:
     void setSpeed(const char* speed);
 
 
+private:
+    RemoteFunctionMap fanRemoteFunctionMap = { 
+        { "state", static_cast<RemoteFunction>(&Fan::setState) },
+        { "speed", static_cast<RemoteFunction>(&Fan::setSpeed) }
+     };
 
 /***UPDATE***/
 private:
-    void onUpdate(const unsigned long* elapsedTime) override;
-
-
-/**REMOTE FUNCTIONS**/
-private:
-    //Typedef for a pointer to a remote function
-    typedef void (Fan::* RemoteFunction)(const char*);
-
-    //Arrays to store names and pointers to remote functions
-    static const size_t numberOfRemoteFuncs = 2;
-    const char* remoteFuncNames[numberOfRemoteFuncs] = { "state", "speed" };
-    const RemoteFunction remoteFunctions[numberOfRemoteFuncs] = { &Fan::setState, &Fan::setSpeed };
-
-    //Call a remote function in a derived class from its index
-    bool callRemoteFunctionByIndex(size_t functionIndex, const char* param) override;
-
+    void onUpdate(unsigned long elapsedTime) override;
 
 
 /***CONSTRUCTOR / DESTRUCTOR***/

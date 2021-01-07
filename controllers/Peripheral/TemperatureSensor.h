@@ -26,10 +26,10 @@ private:
 
 
 /***UPDATE INTERVAL***/
-    //Interval in seconds to update sensor value
-    const float UPDATE_INTERVAL = 10;
+    //Interval in milliseconds to update sensor value
+    const long UPDATE_INTERVAL = 60000L;
     //Stores time remaining to next update
-    int updateCountdown;
+    long updateCountdown;
 
 
 
@@ -42,6 +42,6 @@ public:
 
 /***UPDATE***/
 private:
-    void onUpdate(const unsigned long* elapsedTime) override;
+    void onUpdate(unsigned long elapsedTime) override;
 };
 

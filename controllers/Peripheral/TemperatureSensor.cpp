@@ -15,15 +15,15 @@ TemperatureSensor::~TemperatureSensor()
 
 }
 
-void TemperatureSensor::onUpdate(const unsigned long* elapsedTime)
+void TemperatureSensor::onUpdate(unsigned long elapsedTime)
 {
-	//Decrement update countdown, dived micros by 1000 to store as millis
-	updateCountdown -= *elapsedTime / 1000;
+	//Decrement update countdown
+	updateCountdown -= elapsedTime;
 
 	//Check if time has elapsed to read new value
 	if(updateCountdown <= 0) {
 		//Reset read countdown
-		updateCountdown = UPDATE_INTERVAL * 1000;
+		updateCountdown = UPDATE_INTERVAL;
 
 		//Voltage read from thermistor
 		int Vo;

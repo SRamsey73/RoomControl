@@ -24,6 +24,6 @@ public:
 
 /***UPDATE***/
 private:
-    void onUpdate(const unsigned long* elapsedTime) override;
+    void onUpdate(unsigned long elapsedTime) override;
 };
 

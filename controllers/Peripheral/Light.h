@@ -60,20 +60,16 @@ private:
 
 /***REMOTE FUNCTIONS***/
 private:
-    //Typedef for a pointer to a remote function
-    typedef void (Light::* RemoteFunction)(const char*);
-    //Arrays to store names and pointers to remote functions
-    static const size_t numberOfRemoteFuncs = 2;
-    const char* remoteFuncNames[numberOfRemoteFuncs] = { "state", "brightness" };
-    const RemoteFunction remoteFunctions[numberOfRemoteFuncs] = { &Light::setState, &Light::setBrightness };
-    //Call a remote function in a derived class from its index
-    bool callRemoteFunctionByIndex(size_t functionIndex, const char* param) override;
+    RemoteFunctionMap lightRemoteFunctionMap = {
+        { "state", static_cast<RemoteFunction>(&Light::setState) },
+        { "brightness", static_cast<RemoteFunction>(&Light::setBrightness) }
+    };
 
 
 
 /***UPDATE***/
 private:
-    void onUpdate(const unsigned long* elapsedTime) override;
+    void onUpdate(unsigned long elapsedTime) override;
 
 
 

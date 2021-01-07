@@ -13,7 +13,7 @@ OccupancySensor::~OccupancySensor()
 
 }
 
-void OccupancySensor::onUpdate(const unsigned long* elapsedTime)
+void OccupancySensor::onUpdate(unsigned long elapsedTime)
 {
 	//Read occupancy sensor
 	bool newOccupied = digitalRead(devicePin);

@@ -1,11 +1,18 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
+//Header for windows development
+#ifdef WIN32
+#include "../ArduinoDebug.h"
+#else
+//Header for arduino
 #include <Arduino.h>
-#include <vector>
-#include <string.h>
-#include <time.h>
+#define _itoa itoa
+#endif
 
+#include <vector>
+#include <map>
+#include <string.h>
 
 using std::vector;
 
@@ -16,45 +23,40 @@ private:
 	//Vector to store derived classes
 	static vector<Peripheral*> instantiatedPeripherals;
 
-
-	/**REMOTE FUNCTIONS**/
-	//Pointer to array of remoteFunctionNames
-	const char** remoteFuncNames;
-	const size_t numberOfRemoteFuncs;
-
 protected:
 	//Name of peripheral
 	char name[30];
 
 
-	/*UPDATE*/
+	/***LOCAL UPDATE***/
+private:
 	static unsigned long lastUpdateTime;
-	virtual void onUpdate(const unsigned long* elapsedTime) = 0;
+protected:
+	virtual void onUpdate(unsigned long elapsedTime) = 0;
 
-
-	/**REMOTE FUNCTIONS**/
-	//Calls a remote function by its index, must be overrided by a derived class
-	virtual bool callRemoteFunctionByIndex(size_t functionIndex, const char* callString);
-	//Returns the index to a remote function based on its name
-	int findRemoteFunctionIndex(const char* funcName);
-
+	/***GLOBAL(STATIC) UPDATE***/
 public:
-	/**CONSTRUCTOR / DESTRUCTOR**/
-	Peripheral(const char* name, const char** remoteFuncNames = nullptr, const size_t numberOfRemoteFuncs = 0);
-	~Peripheral();
-
-
-	/*UPDATE*/
 	static void update();
 
 
 	/**REMOTE FUNCTIONS**/
-	//Pass a complete callString to call a remote function, searches all instantiated peripherals
+protected:
+	typedef void (Peripheral::* RemoteFunction)(const char*);
+	typedef std::map<const char*, RemoteFunction> RemoteFunctionMap;
+protected:
+	RemoteFunctionMap remoteFunctionMap;
+public:
+	void registerRemoteFunctions(const RemoteFunctionMap& remoteFunctionMap);
 	static bool callRemoteFunction(const char* callString);
 	void sendCallString(const char* funcName, const char* param);
 	void sendCallString(const char* funcName, int param);
 
 	static void sendSerial(const char* msg);
+
+public:
+	/**CONSTRUCTOR / DESTRUCTOR**/
+	Peripheral(const char* name);
+	~Peripheral();
 };
 
 

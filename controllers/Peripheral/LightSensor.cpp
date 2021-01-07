@@ -14,15 +14,15 @@ LightSensor::~LightSensor()
 
 }
 
-void LightSensor::onUpdate(const unsigned long* elapsedTime)
+void LightSensor::onUpdate(unsigned long elapsedTime)
 {
-	//Decrement update countdown, dived micros by 1000 to store as millis
-	updateCountdown -= *elapsedTime / 1000;
+	//Decrement update countdown
+	updateCountdown -= elapsedTime;
 
 	//Check if time has elapsed to read new value
 	if(updateCountdown <= 0) {
 		//Reset read countdown
-		updateCountdown = UPDATE_INTERVAL * 1000;
+		updateCountdown = UPDATE_INTERVAL;
 
 		//Read new value of light sensor
 		int newLightLevel = analogRead(devicePin);
