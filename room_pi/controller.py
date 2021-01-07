@@ -5,6 +5,7 @@ import measure_time
 import socket
 import select
 import threading
+import traceback
 
 
 
@@ -79,7 +80,19 @@ class SocketConnection:
     def configure_listener(self):
         self.listener_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.listener_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.listener_socket.bind(('192.168.4.1', self.port))
+
+        # Script cannot assign address until pi's ap has fully initialized
+        # Must wait here and loop until able to do so
+        while True:
+            try:
+                self.listener_socket.bind(('192.168.4.1', self.port))
+                # Break loop when sucessful
+                break
+            except OSError:
+                # Unable to bind
+                # Wait for 5 seconds before trying again
+                time.sleep(5)
+
         self.listener_socket.listen()
                    
 
@@ -99,42 +112,59 @@ class SocketConnection:
 
     # Listen for data written to socket
     def read(self) -> str:
-        readable = select.select(self.connected_sockets, [], [], 0)[0]
-        for s in readable:
-            # Check if activity on listener socket, if so accept connection and return
-            if s == self.listener_socket:
-                conn, addr = self.listener_socket.accept()
-                log("Socket connected with address: " + str(addr[0]))
-                self.connected_sockets.append(conn)
-                return
-            
-            # Socket was not a listener, incoming data from connected socket, read it
-            msg = ""
+        try:
+            readable = select.select(self.connected_sockets, [], [], 0)[0]
+            s = None
+            for s in readable:
+                # Check if activity on listener socket, if so accept connection and return
+                if s == self.listener_socket:
+                    conn, addr = self.listener_socket.accept()
+                    log("Socket connected with address: " + str(addr[0]))
+                    self.connected_sockets.append(conn)
+                    return
+                
+                # Socket was not a listener, incoming data from connected socket, read it
+                msg = ""
 
-            # Read message on socket
-            while True:
-                char = s.recv(1).decode('utf-8')
-                if char == '':
-                    self.del_socket_by_descriptor(s)
-                    break
-                elif char == '\4':
-                    return msg
-                else:
-                    msg += char
-        return None
+                # Read message on socket
+                while True:
+                    try:
+                        char = s.recv(1).decode('utf-8')
+                        if char == '':
+                            self.del_socket_by_descriptor(s)
+                            break
+                        elif char == '\4':
+                            return msg
+                        else:
+                            msg += char
+                    except:
+                        break
+            return None
+        except (OSError, IOError):
+            if not s == self.listener_socket:
+                s.close()
+                self.connected_sockets.remove(s) 
+            return None
+
 
 
     def send(self, msg, target_socket=None):
        
         # Check if more sockets than just the listener are connected
-        if len(self.connected_sockets) > 1:
-            for socket in self.connected_sockets[1:]:
+        try:
+            if len(self.connected_sockets) > 1:
+                for socket in self.connected_sockets[1:]:
+                    target_socket = socket
+                    msg += '\4'
+                    socket.send(msg.encode('utf-8'))
+            # Check if a specific socket is being targeted, if not send to all
+            elif not target_socket == None:
                 msg += '\4'
-                socket.send(msg.encode('utf-8'))
-         # Check if a specific socket is being targeted, if not send to all
-        elif not target_socket == None:
-            msg += '\4'
-            target_socket.send(msg.encode('utf-8'))
+                target_socket.send(msg.encode('utf-8'))
+        except (OSError, IOError):
+            target_socket.close()
+            self.connected_sockets.remove(target_socket) 
+
 
 
     def close(self):
@@ -154,15 +184,18 @@ class SerialConnection:
 
     def read(self) -> str:
         # Check if serial is available
-        if self.serial_port.in_waiting > 0:
-            msg = self.serial_port.read_until(b'\4').decode('ascii')
-            return msg[:-1]
-        return None
+        try:
+            if self.serial_port.in_waiting > 0:
+                msg = self.serial_port.read_until(b'\4').decode('utf-8')
+                return msg[:-1]
+            return None
+        except UnicodeDecodeError:
+            pass
     
 
     def send(self, msg):
         msg += '\4'
-        self.serial_port.write(msg.encode('ascii'))
+        self.serial_port.write(msg.encode('utf-8'))
 
     
     def close(self):

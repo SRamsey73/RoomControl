@@ -17,8 +17,7 @@ class ControlInterface:
         if type(msg) is str:
             # call read_actions with the msg
             self.read_actions(msg)
-            print(msg)
-
+            
 
     def close(self):
         self.connection.close()

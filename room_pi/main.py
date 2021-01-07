@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from logger import log
+from logger import log, log_file
 from controller import Controller
-from room_peripherals import Light, Fan, TemperatureSensor, OccupancySensor, LightSensor
+from room_peripherals import Light, Fan, TemperatureSensor, OccupancySensor, LightSensor, LEDStrip
 from control_interface import ControlInterface
 import os
 from threading import Thread, main_thread
@@ -9,7 +9,8 @@ from threading import Thread, main_thread
 log("\n\nApplication start")
 
 # Constants
-LIGHT_THRESHOLD = 500
+# Light levels less than this threshold will turn the overhead light on
+LIGHT_THRESHOLD = 600
 
 def handle_user_input():
     os.system('clear')
@@ -23,12 +24,13 @@ def handle_user_input():
                 print("\nQuitting application...")
                 exit_application()
                 break
-            
+            if "detach" in command:
+                os.system("screen -d")
+                continue
             if "bc" in command:
                 basement_controller.call_peripheral_function(command[3:])
             elif "dc" in command:
                 desk_controller.connection.send(command[3:])
-                pass
             elif "light" in command:
                 if "off" in command:
                     overhead_light.set_state(Light.OFF)
@@ -39,6 +41,14 @@ def handle_user_input():
                     ceiling_fan.set_state(Fan.OFF)
                 elif "on" in command:
                     ceiling_fan.set_state(Fan.ON)
+            elif "desk_leds" in command:
+                if "animation" in command:
+                    desk_led_strip.set_current_animation(command[len("desk_leds animation "):])
+                elif "state" in command:
+                    if "off" in command:
+                        desk_led_strip.set_state(LEDStrip.OFF)
+                    elif "on" in command:
+                        desk_led_strip.set_state(LEDStrip.ON)
             else:
                 print("Command not recognised")
         except KeyboardInterrupt:
@@ -55,6 +65,8 @@ def exit_application():
     tablets.close()
     basement_controller.close()
     desk_controller.close()
+    log_file.close()
+    
 
 
 # Room state variables
@@ -64,18 +76,17 @@ light_level_enabled = True
 
 
 def tablet_read_actions(msg: str):
-    global night_mode
     # check if sync was requested
     if msg == "sync":
         sync_tablets()
     # night mode
     elif msg.startswith("night_mode:state:"):
         if ":off" in msg:
-            night_mode = False
+            setNightMode(False)
         elif ":on" in msg:
-            night_mode = True
+            setNightMode(True)
         elif ":toggle" in msg:
-            night_mode = not night_mode
+            setNightMode(not night_mode)
         else:
             return
         tablets.connection.send("night_mode:state:" + ("on" if night_mode else "off"))
@@ -115,6 +126,10 @@ def occupancy_changed():
     if occupancy_enabled:
         # Check if room is occupied and not in night mode
         if occupancy_sensor.get_occupied() and not night_mode:
+            # Turn desk leds on
+            desk_led_strip.set_state(LEDStrip.ON)
+
+            # Logic to control overhead light that incorporates ambient light level
             # Check if light level is enabled 
             if light_level_enabled:
                 # Check if light level is less than threshold
@@ -133,6 +148,8 @@ def occupancy_changed():
         elif not occupancy_sensor.get_occupied():
             # Turn the light off
             overhead_light.set_state(Light.OFF)
+            # Turn desk leds off
+            desk_led_strip.set_state(LEDStrip.OFF)
 
 
 
@@ -141,6 +158,16 @@ def temperature_changed():
 
 def light_level_changed():
     pass
+
+
+def setNightMode(new_night_mode):
+    global night_mode
+    if(type(new_night_mode) == bool):
+        night_mode = new_night_mode
+        if night_mode:
+            desk_controller.connection.send("desk_leds:state:off")
+        else:
+            desk_controller.connection.send("desk_leds:state:on")
 
 
 # Create tablets
@@ -158,6 +185,7 @@ ceiling_fan = Fan("ceiling_fan", basement_controller)
 occupancy_sensor = OccupancySensor("occupancy_sensor", desk_controller, occupancy_changed)
 temperature_sensor = TemperatureSensor("temperature_sensor", desk_controller, temperature_changed)
 light_levelsensor = LightSensor("light_sensor", desk_controller, light_level_changed)
+desk_led_strip = LEDStrip("desk_leds", desk_controller, ("tail_effect", "rwb_center"))
 
 
 # Run if main

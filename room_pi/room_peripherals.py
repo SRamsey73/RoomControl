@@ -1,6 +1,10 @@
 from controller import Controller
 
 class RoomPeripheral:
+    OFF = "off"
+    ON = "on"
+    TOGGLE = "toggle"
+
     def __init__(self):
         self.remote_function_map = {}
 
@@ -16,8 +20,6 @@ class RoomPeripheral:
 
 # Room peripheral classes
 class Light(RoomPeripheral):
-    OFF = "off"
-    ON = "on"
     TOGGLE = "toggle"
     def __init__(self, name: str, controller: Controller):
         # State variables of light
@@ -88,10 +90,6 @@ class Light(RoomPeripheral):
 
 
 class Fan(RoomPeripheral):
-    OFF = "off"
-    ON = "on"
-    TOGGLE = "toggle"
-
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -122,7 +120,7 @@ class Fan(RoomPeripheral):
         if state == False or state == Fan.OFF:
             # Set state to off
             self._state = False
-        elif state == True or state == Fan.LOW:
+        elif state == True or state == Fan.ON:
             # Set state to on
             self._state = True
         elif state == Fan.TOGGLE:
@@ -135,7 +133,7 @@ class Fan(RoomPeripheral):
         
         # Send new state over serial
         if update_controller:
-            self.controller.connection.send(self.name + ":state:" + ("on" if state else "off"))
+            self.controller.connection.send(self.name + ":state:" + ("on" if self._state else "off"))
 
     
     # Getter and setter for speed
@@ -258,3 +256,47 @@ class OccupancySensor(RoomPeripheral):
 
     def set_callback(self, callback):
         self._callback = callback
+
+
+
+class LEDStrip(RoomPeripheral):
+    def __init__(self, name, controller: Controller, animations: (str)):
+            # set name of strip
+            self.name = name
+            # set controller to interact with LEDStrip
+            self.controller = controller
+            # Add peripheral to controller
+            self.controller.room_peripherals.append(self)
+            # Animations strip can display
+            self._animations = animations
+            # Current animation strip is displaying
+            self._current_animation = animations[0]
+            # Map functions to call strings
+            self.remote_function_map = { 
+                "state": self.set_state,
+                "animation": self.set_current_animation 
+            }
+
+            self._state = True
+
+
+    def set_state(self, state, update_controller = True):
+        if (type(state) is bool and state) or state == RoomPeripheral.ON:
+            self._state = True
+        elif (type(state) is bool and not state) or state == RoomPeripheral.OFF:
+            self._state = False
+        elif state == RoomPeripheral.TOGGLE:
+            self.set_state(not state)
+            return
+        else:
+            return
+        if(update_controller):
+            self.controller.connection.send(self.name + ":state:" + ("on" if self._state else "off"))
+
+
+    
+    def set_current_animation(self, animation_name, update_controller = True):
+        if animation_name in self._animations:
+            self._current_animation = animation_name
+            if(update_controller):
+                self.controller.connection.send(self.name + ":animation:" + animation_name)
