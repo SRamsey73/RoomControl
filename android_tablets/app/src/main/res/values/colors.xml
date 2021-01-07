@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#000000</color>
+    <color name="lightColor">#FFD600</color>
+    <color name="lightColorDark">#C7A500</color>
+    <color name="fanColor">#FF6600</color>
+    <color name="fanColorDark">#C43C00</color>
+    <color name="buttonPressed">#D45500</color>
+    <color name="auxColor1">#1976D2</color>
+    <color name="auxColor1Dark">#004BA0</color>
+    <color name="auxColor2">#0097A7</color>
+    <color name="auxColor2Dark">#006472</color>
+    <color name="panelDivider">#ffffff</color>
+</resources>

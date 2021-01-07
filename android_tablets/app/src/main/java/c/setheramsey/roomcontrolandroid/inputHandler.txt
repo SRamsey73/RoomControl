@@ -1,0 +1,451 @@
+package c.setheramsey.roomcontrolandroid;
+
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.SocketException;
+
+public class WiFiCommunication {
+    final String TAG = "WiFiCommunication";
+    final int OFF = 0;
+    final int ON = 1;
+    final int TOGGLE = 2;
+
+    Socket socket;
+    OutputStream socketOutput;
+    InputStream socketInput;
+
+    private RoomUI mRoomUi;
+
+    Boolean inputStreamFlag = false;
+
+    WiFiCommunication(RoomUI roomUI) {
+        Log.d(TAG, "WiFi Communication");
+        mRoomUi = roomUI;
+    }
+
+    void connectSocket() {
+            Log.d(TAG, "Connecting socket...");
+            if(socket != null) {
+                try {
+                    socket.close();
+                }
+                catch(IOException e) {
+
+                }
+            }
+            new Thread() {
+                public void run() {
+                    try {
+                        socket = new Socket("192.168.4.1", 7500);
+                        socketOutput = socket.getOutputStream();
+                        socketInput = socket.getInputStream();
+                    } catch (IOException e) {
+                        Log.d(TAG, "Socket connection error");
+                        Log.d(TAG, e.toString());
+                        return;
+                    }
+                    startInputHandlerThread();
+                    sync();
+                }
+            }.start();
+    }
+
+    void closeSocket() {
+        inputStreamFlag = false;
+        if (socket == null) {
+            return;
+        }
+        try {
+            socket.close();
+        }
+        catch (IOException e) {
+
+        }
+        socket = null;
+    }
+
+    public void write(int meaning, int data) {
+        if(socket == null || !socket.isConnected()) {
+            return;
+        }
+
+        byte[] writeBuffer = new byte[10];
+        writeBuffer[0] = (byte) meaning;
+        int outputLength = 0;
+        int offset = 0;
+        if(meaning != 2) {
+            Log.d(TAG, "Outgoing Meaning: " + meaning + " | " + "Data: " + data);
+        }
+        writeBuffer[3] = (byte) (data & 0xFF);
+        writeBuffer[2] = (byte) ((data >> 8) & 0xFF);
+        writeBuffer[1] = (byte) ((data >> 16) & 0xFF);
+
+        switch (meaning) {
+            case 4:
+                outputLength = 1;
+                break;
+            case 6:
+                outputLength = 1;
+                break;
+            case 10:
+                outputLength = 0;
+                break;
+            case 11:
+                outputLength = 0;
+                break;
+            case 13:
+                outputLength = 1;
+                break;
+            case 23:
+                outputLength = 1;
+                break;
+            case 33:
+                outputLength = 1;
+                break;
+            case 34:
+                outputLength = 1;
+                break;
+            case 74:
+                outputLength = 1;
+                break;
+        }
+        switch (outputLength) {
+            case 3:
+                offset = 0;
+                writeBuffer[0] = (byte) meaning;
+                break;
+            case 2:
+                offset = 1;
+                writeBuffer[1] = (byte) meaning;
+                break;
+            case 1:
+                offset = 2;
+                writeBuffer[2] = (byte) meaning;
+                break;
+        }
+        try {
+            socketOutput.write(writeBuffer, offset, outputLength + 1);
+        } catch (IOException e) {
+        }
+        try {
+            Thread.sleep(20);
+        } catch (Exception e) {
+        }
+    }
+
+    private void startInputHandlerThread () {
+        inputStreamFlag = true;
+        Thread inputStreamHandler = new Thread() {
+            int[] incomingByte = new int[10];
+            int incomingMeaning;
+            int incomingData = 0;
+            int bytesRead = 0;
+            int dataLength = 0;
+            int availableBytes = 0;
+
+            public void run() {
+                while (inputStreamFlag) {
+                    while (inputStreamFlag) {
+                        try {
+                            availableBytes = socketInput.available();
+                        } catch (IOException e) {
+                        }
+                        if (availableBytes > 0) {
+                            //Log.d(TAG, "Transmission in progress");
+                            //restartPingCountdown();
+                            try {
+                                incomingByte[bytesRead] = socketInput.read();
+                            } catch (IOException e) {
+                            }
+                            dataLength = 0;
+                            switch (incomingByte[0]) {
+                                //Define length of transmission here
+                                case 4:
+                                    dataLength = 1;
+                                    break;
+                                case 6:
+                                    dataLength = 1;
+                                    break;
+                                case 10:
+                                    dataLength = 0;
+                                    break;
+                                case 11:
+                                    dataLength = 0;
+                                    break;
+                                case 13:
+                                    dataLength = 1;
+                                    break;
+                                case 20:
+                                    dataLength = 0;
+                                    break;
+                                case 21:
+                                    dataLength = 0;
+                                    break;
+                                case 23:
+                                    dataLength = 1;
+                                    break;
+                                case 33:
+                                    dataLength = 1;
+                                    break;
+                                case 34:
+                                    dataLength = 1;
+                                    break;
+                                case 73:
+                                    dataLength = 1;
+                                    break;
+                                case 74:
+                                    dataLength = 1;
+                                    break;
+                            }
+                            switch (bytesRead) {
+                                case 1:
+                                    incomingData = incomingByte[1];
+                                    break;
+                                case 2:
+                                    incomingData = (incomingData << 8) + incomingByte[2];
+                                    break;
+                                case 3:
+                                    incomingData = (incomingData << 8) + incomingByte[3];
+                                    break;
+                            }
+                            if (bytesRead == dataLength) {
+                                incomingMeaning = incomingByte[0];
+                                if(incomingMeaning != 2) {
+                                    Log.d(TAG, "Incoming Meaning: " + incomingMeaning + " | " + "Data: " + incomingData);
+                                }
+                                //Define meaning of transmission here
+                                switch (incomingByte[0]) {
+                                    case 2:
+                                        //restartPingCountdown();
+                                        break;
+                                    case 4:
+                                        mRoomUi.deskLEDState = incomingData;
+                                        RoomUI.updateIndicator(mRoomUi.imgDeskLEDIndicator, incomingData);
+                                        break;
+                                    case 6:
+                                        mRoomUi.voiceState = incomingData;
+                                        RoomUI.updateIndicator(mRoomUi.imgVoiceIndicator, incomingData);
+                                        break;
+                                    case 10:
+                                        RoomUI.updateIndicator(RoomUI.imgLightsIndicator, OFF);
+                                        break;
+                                    case 11:
+                                        RoomUI.updateIndicator(RoomUI.imgLightsIndicator, ON);
+                                        break;
+                                    case 13:
+                                        int previousDifference = Math.abs(mRoomUi.overheadLightDimmerValues[0] - incomingData);
+                                        int currentDifference;
+                                        if(Math.abs(mRoomUi.overheadLightDimmerValues[mRoomUi.lightLevel] - incomingData) > 5) {
+                                            for(int i = 1; i < 11; i++) {
+                                                currentDifference = Math.abs(mRoomUi.overheadLightDimmerValues[i] - incomingData);
+                                                if(previousDifference < currentDifference) {
+                                                    if(!(i == 1)) {
+                                                        mRoomUi.lightLevel = i - 1;
+                                                    }
+                                                    break;
+                                                }
+                                                if(i == 10) {
+                                                    mRoomUi.lightLevel = 10;
+                                                }
+                                                previousDifference = currentDifference;
+                                            }
+                                            Utils.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mRoomUi.changeLightLevel(mRoomUi.lightLevel);
+                                                }
+                                            });
+                                        }
+                                        break;
+                                    case 20:
+                                        RoomUI.updateIndicator(RoomUI.imgFanIndicator, OFF);
+                                        break;
+                                    case 21:
+                                        RoomUI.updateIndicator(RoomUI.imgFanIndicator, ON);
+                                        break;
+                                    case 23:
+                                        switch (incomingData) {
+                                            case 1:
+                                                Utils.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        RoomUI.updateIndicator(RoomUI.imgLowFanSpeedIndicator, ON);
+                                                        RoomUI.updateIndicator(RoomUI.imgMediumFanSpeedIndicator, OFF);
+                                                        RoomUI.updateIndicator(RoomUI.imgHighFanSpeedIndicator, OFF);
+                                                    }
+                                                });
+                                                break;
+                                            case 2:
+                                                Utils.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        RoomUI.updateIndicator(RoomUI.imgLowFanSpeedIndicator, OFF);
+                                                        RoomUI.updateIndicator(RoomUI.imgMediumFanSpeedIndicator, ON);
+                                                        RoomUI.updateIndicator(RoomUI.imgHighFanSpeedIndicator, OFF);
+                                                    }
+                                                });
+                                                break;
+                                            case 3:
+                                                Utils.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        RoomUI.updateIndicator(RoomUI.imgLowFanSpeedIndicator, OFF);
+                                                        RoomUI.updateIndicator(RoomUI.imgMediumFanSpeedIndicator, OFF);
+                                                        RoomUI.updateIndicator(RoomUI.imgHighFanSpeedIndicator, ON);
+                                                    }
+                                                });
+                                                break;
+                                        }
+                                        break;
+                                    case 30:
+                                        RoomUI.updateIndicator(RoomUI.imgPIRIndicator_lights, OFF);
+                                        break;
+                                    case 31:
+                                        RoomUI.updateIndicator(RoomUI.imgPIRIndicator_lights, ON);
+                                        break;
+                                    case 33:
+                                        if(mRoomUi.lightODSTimeout != incomingData) {
+                                            mRoomUi.lightODSTimeout = incomingData;
+                                            Utils.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mRoomUi.changeLightODSTimeout(mRoomUi.lightODSTimeout);
+                                                }
+                                            });
+                                        }
+                                        break;
+                                    case 34:
+                                        if(mRoomUi.fanODSTimeout != incomingData) {
+                                            mRoomUi.fanODSTimeout = incomingData;
+                                            Utils.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mRoomUi.changeFanODSTimeout(mRoomUi.fanODSTimeout);
+                                                }
+                                            });
+                                        }
+                                        break;
+                                    case 40:
+                                        RoomUI.updateIndicator(RoomUI.imgLDRIndicator_lights, OFF);
+                                        break;
+                                    case 41:
+                                        RoomUI.updateIndicator(RoomUI.imgLDRIndicator_lights, ON);
+                                        break;
+                                    case 50:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                RoomUI.updateIndicator(mRoomUi.imgNightIndicator, OFF);
+                                                mRoomUi.nightClockVisibility(false);
+                                            }
+                                        });
+                                        break;
+                                    case 51:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                RoomUI.updateIndicator(mRoomUi.imgNightIndicator, ON);
+                                                mRoomUi.nightClockVisibility(true);
+                                            }
+                                        });
+                                        break;
+                                    case 60:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // UI updation related code.
+                                            }
+                                        });
+                                        break;
+                                    case 61:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // UI updation related code.
+                                            }
+                                        });
+                                        break;
+                                    case 70:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                RoomUI.updateIndicator(mRoomUi.imgTempControlIndicator, OFF);
+                                            }
+                                        });
+                                        break;
+                                    case 71:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                RoomUI.updateIndicator(mRoomUi.imgTempControlIndicator, ON);
+                                            }
+                                        });
+                                        break;
+                                    case 73:
+                                        mRoomUi.ambientTemp = incomingData;
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mRoomUi.updateAmbientTemperature(mRoomUi.ambientTemp);
+                                            }
+                                        });
+                                        break;
+                                    case 74:
+                                        if(mRoomUi.targetTemp != incomingData) {
+                                            mRoomUi.targetTemp = incomingData;
+                                            Utils.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mRoomUi.changeTargetTemp(mRoomUi.targetTemp);
+
+                                                }
+                                            });
+                                        }
+                                        break;
+                                    case 80:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                            }
+                                        });
+                                        break;
+                                    case 81:
+                                        Utils.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                            }
+                                        });
+                                        break;
+                                    default:
+                                        Log.d(TAG, "No match");
+                                        break;
+                                }
+                                //Log.d(TAG, "Clearing Data");
+                                incomingData = 0;
+                                bytesRead = 0;
+                                for (int i = 0; i < 10; i++) {
+                                    incomingByte[i] = 0;
+                                }
+                                break;
+                            }
+                            bytesRead++;
+                        }
+                    }
+                }
+            }
+        };
+        inputStreamHandler.start();
+    }
+
+    void sync() {
+        write(1, 0);
+    }
+
+}

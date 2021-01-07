@@ -1,0 +1,1436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:visibility="visible"
+    tools:context=".RoomUI">
+
+    <ImageView
+        android:id="@+id/backgroundEagle"
+        android:layout_width="1740px"
+        android:layout_height="1058px"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha=".65"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_eagle_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clockPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="191dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtAmbientTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/aov_light"
+            android:text="75°F"
+            android:textAllCaps="true"
+            android:textColor="#800000"
+            android:textSize="45sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgClockDivider"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.071" />
+
+        <ImageView
+            android:id="@+id/imgClockDivider"
+            android:layout_width="2dp"
+            android:layout_height="161dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@android:color/background_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtClock"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextClock
+            android:id="@+id/txtMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="°"
+            android:fontFamily="@font/aov_light"
+            android:format12Hour="MMM dd"
+            android:text="MAY 20"
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textColor="#e6e6e6"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgClockDivider"
+            app:layout_constraintStart_toStartOf="@+id/txtAmbientTemp"
+            app:layout_constraintTop_toTopOf="@+id/imgClockDivider"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextClock
+            android:id="@+id/txtDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="°"
+            android:fontFamily="@font/aov_light"
+            android:format12Hour="EEE"
+            android:text="THU"
+            android:textAlignment="viewEnd"
+            android:textAllCaps="true"
+            android:textColor="#e6e6e6"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgClockDivider"
+            app:layout_constraintStart_toStartOf="@+id/txtAmbientTemp"
+            app:layout_constraintTop_toTopOf="@+id/imgClockDivider"
+            app:layout_constraintVertical_bias="0.577" />
+
+        <TextClock
+            android:id="@+id/txtClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/aov_light"
+            android:format12Hour="h:mm"
+            android:text="1:55"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#800000"
+            android:textSize="120sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/btnFan"
+        android:layout_width="295px"
+        android:layout_height="146dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_fan_unpressed"
+        app:layout_constraintEnd_toEndOf="@+id/imgFanColor"
+        app:layout_constraintTop_toBottomOf="@+id/imgFanColor" />
+
+    <ImageButton
+        android:id="@+id/btnLights"
+        android:layout_width="295px"
+        android:layout_height="295px"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:cropToPadding="false"
+        android:elevation="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_lights_unpressed"
+        app:layout_constraintStart_toStartOf="@+id/imgLightColor"
+        app:layout_constraintTop_toBottomOf="@+id/imgLightColor" />
+
+    <ImageView
+        android:id="@+id/imgLightsIndicator"
+        android:layout_width="40px"
+        android:layout_height="40px"
+        android:src="@drawable/ic_indicator_yellow"
+        app:layout_constraintStart_toStartOf="@+id/btnLights"
+        app:layout_constraintTop_toTopOf="@+id/btnLights" />
+
+    <ImageView
+        android:id="@+id/imgLightColor"
+        android:layout_width="295px"
+        android:layout_height="31px"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_light_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="21dp" />
+
+    <ImageView
+        android:id="@+id/imgFanColor"
+        android:layout_width="295px"
+        android:layout_height="31px"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_fan_rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="21dp" />
+
+    <TextView
+        android:id="@+id/txtLights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="@font/control_freak"
+        android:text="Lights"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnLights"
+        app:layout_constraintEnd_toEndOf="@+id/btnLights" />
+
+    <TextView
+        android:id="@+id/txtFAN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="@font/control_freak"
+        android:text="FAN"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnFan"
+        app:layout_constraintEnd_toEndOf="@+id/btnFan" />
+
+    <ImageView
+        android:id="@+id/imgFanIndicator"
+        android:layout_width="40px"
+        android:layout_height="40px"
+        android:src="@drawable/ic_indicator_orange"
+        app:layout_constraintStart_toStartOf="@+id/btnFan"
+        app:layout_constraintTop_toTopOf="@+id/btnFan" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pnlLights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="195dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgPIRIndicator_lights"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_yellow"
+            app:layout_constraintStart_toStartOf="@+id/btnPIR_lights"
+            app:layout_constraintTop_toTopOf="@+id/btnPIR_lights" />
+
+        <ImageButton
+            android:id="@+id/btnLDR_lights"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_light_auxiliary_button_unpressed"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine2_lp"
+            app:layout_constraintTop_toTopOf="@+id/btnPIR_lights" />
+
+        <TextView
+            android:id="@+id/txtLDR_lights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ALS ENABLE"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLDR_lights"
+            app:layout_constraintEnd_toEndOf="@+id/btnLDR_lights" />
+
+        <ImageView
+            android:id="@+id/imgLDRIndicator_lights"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_yellow"
+            app:layout_constraintStart_toStartOf="@+id/btnLDR_lights"
+            app:layout_constraintTop_toTopOf="@+id/btnLDR_lights" />
+
+        <ImageButton
+            android:id="@+id/btnPIR_lights"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_light_auxiliary_button_unpressed"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine2_lp"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine1_lp"
+            app:layout_constraintTop_toBottomOf="@+id/btnDecreaseODS_lp" />
+
+        <TextView
+            android:id="@+id/txtPIR_lights"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ODS ENABLE"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnPIR_lights"
+            app:layout_constraintEnd_toEndOf="@+id/btnPIR_lights" />
+
+        <ImageView
+            android:id="@+id/imgLightPanelBrackets"
+            android:layout_width="1135px"
+            android:layout_height="723px"
+            android:src="@drawable/ic_light_panel_brackets"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtLightConfigPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="LIGHT CONFIGURATION PANEL"
+            android:textColor="@color/lightColor"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtIntensity_lp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="BRIGHTNESS"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgIntensityUnderline_lp"
+            app:layout_constraintStart_toStartOf="@+id/imgIntensityUnderline_lp"
+            app:layout_constraintTop_toBottomOf="@+id/txtLightConfigPanel" />
+
+        <ImageView
+            android:id="@+id/imgIntensityUnderline_lp"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@color/panelDivider"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine1_lp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtIntensity_lp"
+            tools:src="@color/panelDivider" />
+
+        <ImageView
+            android:id="@+id/light_bar_1"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".15"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/btnDecreaseLight"
+            app:layout_constraintEnd_toEndOf="@+id/btnDecreaseLight"
+            app:layout_constraintStart_toStartOf="@+id/btnDecreaseLight" />
+
+        <ImageView
+            android:id="@+id/light_bar_2"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".244"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_1"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_1"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_1" />
+
+        <ImageView
+            android:id="@+id/light_bar_3"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".339"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_2"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_2"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_2" />
+
+        <ImageView
+            android:id="@+id/light_bar_4"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".433"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_3"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_3"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_3" />
+
+        <ImageView
+            android:id="@+id/light_bar_5"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:alpha=".528"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_4"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_4" />
+
+        <ImageView
+            android:id="@+id/light_bar_6"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".622"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_5"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_5"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_5" />
+
+        <ImageView
+            android:id="@+id/light_bar_7"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".717"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_6"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_6"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_6" />
+
+        <ImageView
+            android:id="@+id/light_bar_8"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".811"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_7"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_7"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_7" />
+
+        <ImageView
+            android:id="@+id/light_bar_9"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha=".906"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_full"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_8"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_8"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_8" />
+
+        <ImageView
+            android:id="@+id/light_bar_10"
+            android:layout_width="180px"
+            android:layout_height="24px"
+            android:layout_marginBottom="8dp"
+            android:alpha="1"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_light_bar_empty"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_9"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_9"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_9" />
+
+        <ImageButton
+            android:id="@+id/btnDecreaseLight"
+            android:layout_width="180px"
+            android:layout_height="79px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="260dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_decrease_light_unpressed"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine1_lp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgIntensityUnderline_lp" />
+
+        <ImageButton
+            android:id="@+id/btnIncreaseLight"
+            android:layout_width="0dp"
+            android:layout_height="79px"
+            android:layout_marginBottom="7dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_increase_light_unpressed"
+            app:layout_constraintBottom_toTopOf="@+id/light_bar_10"
+            app:layout_constraintEnd_toEndOf="@+id/light_bar_10"
+            app:layout_constraintStart_toStartOf="@+id/light_bar_10" />
+
+        <ImageView
+            android:id="@+id/dividerLine1_lp"
+            android:layout_width="4px"
+            android:layout_height="608px"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle_yellow"
+            android:src="@color/panelDivider"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLightPanelBrackets"
+            app:layout_constraintEnd_toStartOf="@+id/imgODSTimeoutUnderline_fp2"
+            app:layout_constraintHorizontal_bias="0.88"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@color/panelDivider" />
+
+        <TextView
+            android:id="@+id/txtODSTimeout_lp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ODS TIMEOUT"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgODSTimeoutUnderline_fp2"
+            app:layout_constraintStart_toStartOf="@+id/imgODSTimeoutUnderline_fp2"
+            app:layout_constraintTop_toBottomOf="@+id/txtLightConfigPanel" />
+
+        <ImageView
+            android:id="@+id/imgODSTimeoutUnderline_fp2"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@color/panelDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtODSTimeout_lp"
+            tools:src="@color/panelDivider" />
+
+        <ImageButton
+            android:id="@+id/btnIncreaseODS_lp"
+            android:layout_width="182px"
+            android:layout_height="80px"
+            android:layout_marginBottom="45dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_light_panel_increase_skinny_unpressed"
+            app:layout_constraintBottom_toTopOf="@+id/btnDecreaseODS_lp"
+            app:layout_constraintEnd_toEndOf="@+id/imgODSTimeoutUnderline_fp2"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="@+id/imgODSTimeoutUnderline_fp2" />
+
+        <ImageButton
+            android:id="@+id/btnDecreaseODS_lp"
+            android:layout_width="182px"
+            android:layout_height="80px"
+            android:layout_marginTop="107dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_light_panel_decrease_skinny_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/btnIncreaseODS_lp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/btnIncreaseODS_lp"
+            app:layout_constraintTop_toBottomOf="@+id/imgODSTimeoutUnderline_fp2" />
+
+        <ImageView
+            android:id="@+id/dividerLine2_lp"
+            android:layout_width="4px"
+            android:layout_height="608px"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/panelDivider"
+            android:scaleType="fitXY"
+            android:src="@color/panelDivider"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLightPanelBrackets"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toEndOf="@+id/imgODSTimeoutUnderline_fp2" />
+
+        <TextView
+            android:id="@+id/txtALSThreshold_lp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ALS THRESHOLD"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgALSUnderline_lp"
+            app:layout_constraintStart_toStartOf="@+id/imgALSUnderline_lp"
+            app:layout_constraintTop_toBottomOf="@+id/txtLightConfigPanel" />
+
+        <ImageView
+            android:id="@+id/imgALSUnderline_lp"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:background="@drawable/rectangle_white"
+            android:src="@color/panelDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine2_lp"
+            app:layout_constraintTop_toTopOf="@+id/imgODSTimeoutUnderline_fp2"
+            tools:src="@color/panelDivider" />
+
+        <ImageButton
+            android:id="@+id/btnIncreaseALS_lp"
+            android:layout_width="182px"
+            android:layout_height="80px"
+            android:layout_marginBottom="45dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_increase_light_unpressed"
+            app:layout_constraintBottom_toTopOf="@+id/btnDecreaseALS_lp"
+            app:layout_constraintEnd_toEndOf="@+id/imgALSUnderline_lp"
+            app:layout_constraintStart_toStartOf="@+id/imgALSUnderline_lp" />
+
+        <TextView
+            android:id="@+id/txtALSValue_lp"
+            android:layout_width="250px"
+            android:layout_height="44dp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/nasalization"
+            android:text="750"
+            android:textAlignment="center"
+            android:textColor="@color/panelDivider"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDecreaseALS_lp"
+            app:layout_constraintEnd_toEndOf="@+id/btnIncreaseALS_lp"
+            app:layout_constraintStart_toStartOf="@+id/btnIncreaseALS_lp" />
+
+        <ImageButton
+            android:id="@+id/btnDecreaseALS_lp"
+            android:layout_width="182px"
+            android:layout_height="80px"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_decrease_light_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/btnIncreaseALS_lp"
+            app:layout_constraintStart_toStartOf="@+id/btnIncreaseALS_lp"
+            app:layout_constraintTop_toTopOf="@+id/btnDecreaseODS_lp" />
+
+        <TextView
+            android:id="@+id/txtODSValue_lp"
+            android:layout_width="150px"
+            android:layout_height="44dp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/nasalization"
+            android:text="21"
+            android:textAlignment="center"
+            android:textColor="@color/panelDivider"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDecreaseODS_lp"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine2_lp"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine1_lp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pnlFan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="195dp"
+        android:minHeight="147dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnPIR_fan"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_fan_auxiliary_button_unpressed"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine2_fp"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine1_fp"
+            app:layout_constraintTop_toBottomOf="@+id/btnDecreaseODS_fp" />
+
+        <ImageView
+            android:id="@+id/imgTempIndicator_fan"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_orange"
+            app:layout_constraintStart_toStartOf="@+id/btnTEMP_fan"
+            app:layout_constraintTop_toTopOf="@+id/btnTEMP_fan" />
+
+        <ImageButton
+            android:id="@+id/btnTEMP_fan"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fan_auxiliary_button_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/imgFanPanelBrackets"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine2_fp"
+            app:layout_constraintTop_toTopOf="@+id/btnPIR_fan" />
+
+        <ImageView
+            android:id="@+id/imgPIRIndicator_fan"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_orange"
+            app:layout_constraintStart_toStartOf="@+id/btnPIR_fan"
+            app:layout_constraintTop_toTopOf="@+id/btnPIR_fan" />
+
+        <TextView
+            android:id="@+id/txtPIR_fan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ODS ENABLE"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnPIR_fan"
+            app:layout_constraintEnd_toEndOf="@+id/btnPIR_fan" />
+
+        <TextView
+            android:id="@+id/txtTEMP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ATS ENABLE"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnTEMP_fan"
+            app:layout_constraintEnd_toEndOf="@+id/btnTEMP_fan" />
+
+        <ImageView
+            android:id="@+id/imgFanPanelBrackets"
+            android:layout_width="1136px"
+            android:layout_height="723px"
+            android:src="@drawable/ic_fan_panel_brackets"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnLowFanSpeed"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_fan_speed_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/btnMediumFanSpeed"
+            app:layout_constraintStart_toStartOf="@+id/btnMediumFanSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/btnMediumFanSpeed" />
+
+        <TextView
+            android:id="@+id/txtLowFanSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="L"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnLowFanSpeed"
+            app:layout_constraintEnd_toEndOf="@+id/btnLowFanSpeed" />
+
+        <ImageView
+            android:id="@+id/imgLowFanSpeedIndicator"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:src="@drawable/ic_indicator_orange"
+            app:layout_constraintStart_toStartOf="@+id/btnLowFanSpeed"
+            app:layout_constraintTop_toTopOf="@+id/btnLowFanSpeed" />
+
+        <ImageButton
+            android:id="@+id/btnMediumFanSpeed"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_fan_speed_unpressed"
+            app:layout_constraintBottom_toBottomOf="@+id/dividerLine1_fp"
+            app:layout_constraintEnd_toEndOf="@+id/btnHighFanSpeed"
+            app:layout_constraintStart_toStartOf="@+id/btnHighFanSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/imgSpeedUnderline_fp"
+            app:layout_constraintVertical_bias="0.6" />
+
+        <TextView
+            android:id="@+id/txtMediumFanSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="M"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnMediumFanSpeed"
+            app:layout_constraintEnd_toEndOf="@+id/btnMediumFanSpeed" />
+
+        <ImageView
+            android:id="@+id/imgMediumFanSpeedIndicator"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:src="@drawable/ic_indicator_orange"
+            app:layout_constraintStart_toStartOf="@+id/btnMediumFanSpeed"
+            app:layout_constraintTop_toTopOf="@+id/btnMediumFanSpeed" />
+
+        <ImageButton
+            android:id="@+id/btnHighFanSpeed"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_fan_speed_unpressed"
+            app:layout_constraintBottom_toTopOf="@+id/btnMediumFanSpeed"
+            app:layout_constraintEnd_toEndOf="@+id/imgSpeedUnderline_fp"
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="@+id/imgSpeedUnderline_fp" />
+
+        <TextView
+            android:id="@+id/txtHighFanSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="H"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnHighFanSpeed"
+            app:layout_constraintEnd_toEndOf="@+id/btnHighFanSpeed" />
+
+        <ImageView
+            android:id="@+id/imgHighFanSpeedIndicator"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:src="@drawable/ic_indicator_orange"
+            app:layout_constraintStart_toStartOf="@+id/btnHighFanSpeed"
+            app:layout_constraintTop_toTopOf="@+id/btnHighFanSpeed" />
+
+        <TextView
+            android:id="@+id/txtFanConfigPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="FAN CONFIGURATION PANEL"
+            android:textColor="@color/fanColor"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtSpeed_fp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/control_freak"
+            android:text="SPEED"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgSpeedUnderline_fp"
+            app:layout_constraintStart_toStartOf="@+id/imgSpeedUnderline_fp"
+            app:layout_constraintTop_toTopOf="@+id/txtODSTimeout_fp" />
+
+        <TextView
+            android:id="@+id/txtTemperature_fp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/control_freak"
+            android:text="TEMPERATURE"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintStart_toStartOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintTop_toTopOf="@+id/txtODSTimeout_fp" />
+
+        <TextView
+            android:id="@+id/txtODSTimeout_fp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="ODS TIMEOUT"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintStart_toStartOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintTop_toBottomOf="@+id/txtFanConfigPanel" />
+
+        <ImageView
+            android:id="@+id/imgSpeedUnderline_fp"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@android:color/white"
+            app:layout_constraintEnd_toStartOf="@+id/dividerLine1_fp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSpeed_fp"
+            tools:src="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/imgODSTimeoutUnderline_fp"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtODSTimeout_fp"
+            tools:src="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/imgTemperatureUnderline_fp"
+            android:layout_width="280px"
+            android:layout_height="4px"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dividerLine2_fp"
+            app:layout_constraintTop_toBottomOf="@+id/txtODSTimeout_fp"
+            tools:src="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/dividerLine1_fp"
+            android:layout_width="4px"
+            android:layout_height="608px"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@android:color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgFanPanelBrackets"
+            app:layout_constraintEnd_toStartOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintHorizontal_bias="0.88"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/dividerLine2_fp"
+            android:layout_width="4px"
+            android:layout_height="608px"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rectangle_white"
+            android:src="@android:color/white"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgFanPanelBrackets"
+            app:layout_constraintEnd_toEndOf="@+id/imgFanPanelBrackets"
+            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintStart_toEndOf="@+id/imgODSTimeoutUnderline_fp" />
+
+        <ImageButton
+            android:id="@+id/btnIncreaseODS_fp"
+            android:layout_width="78dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="33dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fan_panel_increase_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintStart_toStartOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintTop_toBottomOf="@+id/txtODSTimeout_fp" />
+
+        <ImageButton
+            android:id="@+id/btnDecreaseODS_fp"
+            android:layout_width="78dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fan_panel_decrease_unpressed"
+            app:layout_constraintStart_toStartOf="@+id/btnIncreaseODS_fp"
+            app:layout_constraintTop_toBottomOf="@+id/txtODSValue_fp" />
+
+        <ImageButton
+            android:id="@+id/btnIncreaseTemp_fp"
+            android:layout_width="78dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fan_panel_increase_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintStart_toStartOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintTop_toTopOf="@+id/btnIncreaseODS_fp" />
+
+        <ImageButton
+            android:id="@+id/btnDecreaseTemp_fp"
+            android:layout_width="78dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fan_panel_decrease_unpressed"
+            app:layout_constraintEnd_toEndOf="@+id/btnIncreaseTemp_fp"
+            app:layout_constraintTop_toBottomOf="@+id/txtTempValue_fp" />
+
+        <TextView
+            android:id="@+id/txtODSValue_fp"
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nasalization"
+            android:text="2.5"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dividerLine1_fp"
+            app:layout_constraintEnd_toEndOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintTop_toBottomOf="@+id/imgODSTimeoutUnderline_fp"
+            app:layout_constraintVertical_bias="0.341" />
+
+        <TextView
+            android:id="@+id/txtTempValue_fp"
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/nasalization"
+            android:text="72"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dividerLine2_fp"
+            app:layout_constraintEnd_toEndOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toStartOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintTop_toBottomOf="@+id/imgTemperatureUnderline_fp"
+            app:layout_constraintVertical_bias="0.341" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/pnlConnectionLost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgConnectionBrackets"
+            android:layout_width="1135px"
+            android:layout_height="723px"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_connection_panel_brackets"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtConectionLost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="CONNECTION LOST"
+            android:textColor="#d50000"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgConnectionBrackets"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35000002" />
+
+        <ImageButton
+            android:id="@+id/btnReconnectBluetooth"
+            android:layout_width="342px"
+            android:layout_height="120px"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_connection_panel_reconnect_unpressed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtConectionLost" />
+
+        <TextView
+            android:id="@+id/txtReconnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/control_freak"
+            android:text="RECONNECT"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReconnectBluetooth"
+            app:layout_constraintEnd_toEndOf="@+id/btnReconnectBluetooth"
+            app:layout_constraintStart_toStartOf="@+id/btnReconnectBluetooth"
+            app:layout_constraintTop_toTopOf="@+id/btnReconnectBluetooth" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/auxiliaryLeftPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="208dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="295px"
+            android:layout_height="31px"
+            android:layout_marginTop="4dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_rectangle_color1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnNightProtocol"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color1"
+            app:layout_constraintEnd_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <ImageView
+            android:id="@+id/imgNightIndicator"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color1"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/btnNightProtocol"
+            app:layout_constraintTop_toTopOf="@+id/btnNightProtocol" />
+
+        <ImageButton
+            android:id="@+id/btnNightClock"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color1"
+            app:layout_constraintEnd_toEndOf="@+id/btnNightProtocol"
+            app:layout_constraintTop_toBottomOf="@+id/btnNightProtocol" />
+
+        <ImageView
+            android:id="@+id/imgDeskLEDIndicator5"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color1"
+            app:layout_constraintStart_toStartOf="@+id/btnNightClock"
+            app:layout_constraintTop_toTopOf="@+id/btnNightClock" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="295px"
+            android:layout_height="31px"
+            android:layout_marginTop="20dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_rectangle_color2"
+            app:layout_constraintEnd_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/btnNightClock" />
+
+        <ImageButton
+            android:id="@+id/btnDisplay"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color2"
+            app:layout_constraintEnd_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <ImageView
+            android:id="@+id/imgDisplayIndicator"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color2"
+            app:layout_constraintStart_toStartOf="@+id/btnDisplay"
+            app:layout_constraintTop_toTopOf="@+id/btnDisplay" />
+
+        <ImageButton
+            android:id="@+id/btnDeskLEDs4"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color2"
+            app:layout_constraintEnd_toEndOf="@+id/btnDisplay"
+            app:layout_constraintTop_toBottomOf="@+id/btnDisplay" />
+
+        <ImageView
+            android:id="@+id/imgNightIndicator7"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color2"
+            app:layout_constraintStart_toStartOf="@+id/btnDeskLEDs4"
+            app:layout_constraintTop_toTopOf="@+id/btnDeskLEDs4" />
+
+        <TextView
+            android:id="@+id/txtNight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="NIGHT PRTCL"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnNightProtocol"
+            app:layout_constraintEnd_toEndOf="@+id/btnNightProtocol" />
+
+        <TextView
+            android:id="@+id/txtNightClockLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="NIGHT CLOCK"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnNightClock"
+            app:layout_constraintEnd_toEndOf="@+id/btnNightClock" />
+
+        <TextView
+            android:id="@+id/txtDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="DISPLAY"
+            android:textAlignment="textEnd"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnDisplay"
+            app:layout_constraintEnd_toEndOf="@+id/btnDisplay" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/auxiliaryRightPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="208dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnNightProtocol2"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color1"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/btnVoice" />
+
+        <ImageView
+            android:id="@+id/imgNightIndicator2"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color1"
+            app:layout_constraintStart_toStartOf="@+id/btnNightProtocol2"
+            app:layout_constraintTop_toTopOf="@+id/btnNightProtocol2" />
+
+        <ImageView
+            android:id="@+id/imgNightIndicator5"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color2"
+            app:layout_constraintStart_toStartOf="@+id/btnDeskLEDs6"
+            app:layout_constraintTop_toTopOf="@+id/btnDeskLEDs6" />
+
+        <ImageView
+            android:id="@+id/imgDeskLEDIndicator"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color2"
+            app:layout_constraintStart_toStartOf="@+id/btnDeskLEDs"
+            app:layout_constraintTop_toTopOf="@+id/btnDeskLEDs" />
+
+        <ImageButton
+            android:id="@+id/btnVoice"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color1"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/txtVoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="VOICE"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnVoice"
+            app:layout_constraintEnd_toEndOf="@+id/btnVoice" />
+
+        <ImageView
+            android:id="@+id/imgVoiceIndicator"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_indicator_color1"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/btnVoice"
+            app:layout_constraintTop_toTopOf="@+id/btnVoice" />
+
+        <ImageButton
+            android:id="@+id/btnDeskLEDs6"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color2"
+            app:layout_constraintStart_toStartOf="@+id/btnDeskLEDs"
+            app:layout_constraintTop_toBottomOf="@+id/btnDeskLEDs" />
+
+        <ImageButton
+            android:id="@+id/btnDeskLEDs"
+            android:layout_width="295px"
+            android:layout_height="130px"
+            android:layout_marginTop="14dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_button_unpressed_color2"
+            app:layout_constraintStart_toStartOf="@+id/imageView6"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+        <TextView
+            android:id="@+id/txtDeskLEDs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/control_freak"
+            android:text="DESK LIGHTS"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnDeskLEDs"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="295px"
+            android:layout_height="31px"
+            android:layout_marginTop="14dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_rectangle_color2"
+            app:layout_constraintEnd_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/btnNightProtocol2" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="295px"
+            android:layout_height="31px"
+            android:layout_marginTop="4dp"
+            android:adjustViewBounds="false"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_auxiliary_rectangle_color1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/nightClockLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextClock
+            android:id="@+id/txtNightClockLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nasalization"
+            android:format12Hour="h:mm"
+            android:text="12:55"
+            android:textAlignment="textEnd"
+            android:textAllCaps="true"
+            android:textColor="#4B4545"
+            android:textSize="300sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
