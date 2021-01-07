@@ -1,0 +1,69 @@
+﻿  ControllerDevelopment.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\Light.h(52,64): warning C4244: 'initializing': conversion from 'double' to 'const unsigned int', possible loss of data
+  DeskLEDStrip.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  Fan.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  LEDStrip.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  Light.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\Light.h(52,64): warning C4244: 'initializing': conversion from 'double' to 'const unsigned int', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\Light.cpp(108,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\Light.cpp(119,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  LightSensor.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\LightSensor.cpp(25,37): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  OccupancySensor.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  Peripheral.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+  TemperatureSensor.cpp
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\ArduinoDebug.h(21,88): warning C4244: 'return': conversion from '_Rep' to 'unsigned long', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(26,37): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(33,35): warning C4305: 'initializing': truncation from 'double' to 'float'
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(33,57): warning C4305: 'initializing': truncation from 'double' to 'float'
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(33,79): warning C4305: 'initializing': truncation from 'double' to 'float'
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(39,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(41,12): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(42,9): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+I:\Projects\Room_Control\controllers\development\ControllerDevelopment\ControllerDevelopment\Peripheral\TemperatureSensor.cpp(43,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  ControllerDevelopment.vcxproj -> I:\Projects\Room_Control\controllers\development\ControllerDevelopment\Debug\ControllerDevelopment.exe
