@@ -1,0 +1,27 @@
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Room Control (PC).exe.config
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Room Control (PC).exe
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Room Control (PC).pdb
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Auth.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Auth.PlatformServices.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Core.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.PlatformServices.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Speech.v1beta1.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Newtonsoft.Json.dll
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.pdb
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.xml
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Auth.pdb
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Auth.xml
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Core.pdb
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Core.xml
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Speech.v1beta1.pdb
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Google.Apis.Speech.v1beta1.xml
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\bin\Release\Newtonsoft.Json.xml
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).csprojAssemblyReference.cache
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room_Control__PC_.Form1.resources
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room_Control__PC_.Properties.Resources.resources
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).csproj.GenerateResource.cache
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).csproj.CoreCompileInputs.cache
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).csproj.CopyComplete
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).exe
+I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\obj\Release\Room Control (PC).pdb
