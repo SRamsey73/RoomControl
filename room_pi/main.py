@@ -5,6 +5,7 @@ from room_peripherals import Light, Fan, TemperatureSensor, OccupancySensor, Lig
 from control_interface import ControlInterface
 import os
 from threading import Thread, main_thread
+from wakeonlan import send_magic_packet
 
 log("\n\nApplication start")
 
@@ -62,7 +63,7 @@ def exit_application():
     main_kill_flag = True
     # wait for main thread to terminate
     while main_kill_flag: pass
-    tablets.close()
+    control_interfaces.close()
     basement_controller.close()
     desk_controller.close()
     log_file.close()
@@ -75,7 +76,7 @@ occupancy_enabled = True
 light_level_enabled = True
 
 
-def tablet_read_actions(msg: str):
+def controller_read_actions(msg: str):
     # check if sync was requested
     if msg == "sync":
         sync_tablets()
@@ -89,7 +90,11 @@ def tablet_read_actions(msg: str):
             setNightMode(not night_mode)
         else:
             return
-        tablets.connection.send("night_mode:state:" + ("on" if night_mode else "off"))
+        control_interfaces.connection.send("night_mode:state:" + ("on" if night_mode else "off"))
+    elif msg.startswith("desktop_computer:wake_up"):
+        wake_desktop_computer()
+    elif msg.startswith("desktop_computer:sleep"):
+        sleep_desktop_computer()
     else:
         # state changes to make on controllers, these are functions in classes like Light, Fan, or OccupancySensor and registered to controllers
         return basement_controller.call_peripheral_function(msg) or desk_controller.call_peripheral_function(msg)
@@ -101,19 +106,19 @@ def tablet_read_actions(msg: str):
 def sync_tablets():
     # send tablets information needed to update UI
     # overhead light
-    tablets.connection.send(overhead_light.name + ":state:" + ("on" if overhead_light.get_state() else "off"))
-    tablets.connection.send(overhead_light.name + ":brightness:" + str(overhead_light.get_brightness()))
+    control_interfaces.connection.send(overhead_light.name + ":state:" + ("on" if overhead_light.get_state() else "off"))
+    control_interfaces.connection.send(overhead_light.name + ":brightness:" + str(overhead_light.get_brightness()))
 
     # fan
-    tablets.connection.send(ceiling_fan.name + ":state:" + ("on" if ceiling_fan.get_state() else "off"))
-    tablets.connection.send(ceiling_fan.name + ":speed:" + ceiling_fan.get_speed())
+    control_interfaces.connection.send(ceiling_fan.name + ":state:" + ("on" if ceiling_fan.get_state() else "off"))
+    control_interfaces.connection.send(ceiling_fan.name + ":speed:" + ceiling_fan.get_speed())
 
     # room temperature
-    tablets.connection.send(temperature_sensor.name + ":temperature:" + str(temperature_sensor.get_temperature()))
+    control_interfaces.connection.send(temperature_sensor.name + ":temperature:" + str(temperature_sensor.get_temperature()))
 
     # night mode
     global night_mode
-    tablets.connection.send("night_mode:state:" + ("on" if night_mode else "off"))
+    control_interfaces.connection.send("night_mode:state:" + ("on" if night_mode else "off"))
 
 
 def occupancy_changed():
@@ -159,6 +164,14 @@ def temperature_changed():
 def light_level_changed():
     pass
 
+def wake_desktop_computer():
+    try:
+        send_magic_packet("D0-50-99-8A-87-23")
+    except OSError:
+        pass
+
+def sleep_desktop_computer():
+    control_interfaces.connection.send("desktop_computer:sleep")
 
 def setNightMode(new_night_mode):
     global night_mode
@@ -170,12 +183,15 @@ def setNightMode(new_night_mode):
             desk_controller.connection.send("desk_leds:state:on")
 
 
+
 # Create tablets
-tablets = ControlInterface("tablets", 7500, tablet_read_actions)
+control_interfaces = ControlInterface("control_interfaces", 7500, controller_read_actions)
+
+# Create desktop computer for voice recognition
 
 # Create controllers that interact with the room
-basement_controller = Controller("basement_controller", Controller.SERIAL_CONNECTION, "/dev/ttyUSB0", tablets.connection)
-desk_controller = Controller("desk_controller", Controller.SERIAL_CONNECTION, "/dev/ttyACM0", tablets.connection)
+basement_controller = Controller("basement_controller", Controller.SERIAL_CONNECTION, "/dev/ttyUSB0", control_interfaces.connection)
+desk_controller = Controller("desk_controller", Controller.SERIAL_CONNECTION, "/dev/ttyACM0", control_interfaces.connection)
 
 # Create room peripherals
 # Basement controller
@@ -202,7 +218,7 @@ if __name__ == "__main__":
         # Read controller input
         basement_controller.read()
         desk_controller.read()
-        tablets.read()
+        control_interfaces.read()
     
     main_kill_flag=False
 

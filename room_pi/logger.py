@@ -1,6 +1,6 @@
 from datetime import datetime
 
-debug = False
+debug = True
 log_file = open("/home/pi/room_pi/logs/room_pi.log", "a")
 
 

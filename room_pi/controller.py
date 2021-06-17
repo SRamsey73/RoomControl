@@ -69,31 +69,45 @@ class SocketConnection:
     def __init__(self, port):
         self.port = port
 
-        self.listener_socket = None
+        self.wlan_listener_socket = None
+        self.lan_listener_socket = None
         self.configure_listener()
 
         self.connected_sockets = []
-        self.connected_sockets.append(self.listener_socket)
+        self.connected_sockets.append(self.wlan_listener_socket)
+        self.connected_sockets.append(self.lan_listener_socket)
 
 
     # Listen for and accept connections
     def configure_listener(self):
-        self.listener_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.listener_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
+        self.wlan_listener_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.wlan_listener_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.lan_listener_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.lan_listener_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # Script cannot assign address until pi's ap has fully initialized
         # Must wait here and loop until able to do so
         while True:
             try:
-                self.listener_socket.bind(('192.168.4.1', self.port))
+                self.wlan_listener_socket.bind(('192.168.4.1', self.port))
                 # Break loop when sucessful
                 break
             except OSError:
                 # Unable to bind
                 # Wait for 5 seconds before trying again
                 time.sleep(5)
+        while True:
+           try:
+               self.lan_listener_socket.bind(('169.254.44.49', self.port))
+               # Break loop when sucessful
+               break
+           except OSError:
+               # Unable to bind
+               # Wait for 5 seconds before trying again
+               time.sleep(5)
 
-        self.listener_socket.listen()
+
+        self.lan_listener_socket.listen()
+        self.wlan_listener_socket.listen()
                    
 
     def del_socket_by_addr(self, addr):
@@ -117,8 +131,8 @@ class SocketConnection:
             s = None
             for s in readable:
                 # Check if activity on listener socket, if so accept connection and return
-                if s == self.listener_socket:
-                    conn, addr = self.listener_socket.accept()
+                if s == self.wlan_listener_socket or s == self.lan_listener_socket:
+                    conn, addr = s.accept()
                     log("Socket connected with address: " + str(addr[0]))
                     self.connected_sockets.append(conn)
                     return
@@ -141,7 +155,7 @@ class SocketConnection:
                         break
             return None
         except (OSError, IOError):
-            if not s == self.listener_socket:
+            if not (s == self.wlan_listener_socket or s == self.lan_listener_socket):
                 s.close()
                 self.connected_sockets.remove(s) 
             return None
@@ -153,7 +167,7 @@ class SocketConnection:
         # Check if more sockets than just the listener are connected
         try:
             if len(self.connected_sockets) > 1:
-                for socket in self.connected_sockets[1:]:
+                for socket in self.connected_sockets[2:]:
                     target_socket = socket
                     msg += '\4'
                     socket.send(msg.encode('utf-8'))

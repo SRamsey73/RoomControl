@@ -10,6 +10,7 @@ using System.Speech.Recognition;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Speech.AudioFormat;
+using static Room_Control__PC_.RoomInteractions;
 
 namespace Room_Control__PC_
 {
@@ -28,7 +29,7 @@ namespace Room_Control__PC_
         const int ON = 1;
         const int TOGGLE = 2;
         //Sound Variables
-        const String SOUNDLOCATION = @"I:\Projects\Room\Software\PC\Room Control (PC)\Room Control (PC)\Sounds\";
+        const String SOUNDLOCATION = @"I:\Projects\Room_Control\win_voice_control\Sounds\";
         const String LISTENINGSOUND = @"Listening.wav";
         const String LIGHTSOUND = @"LightNoise.wav";
         const String CANCELSOUND = @"CancelNoise2.wav";
@@ -55,7 +56,7 @@ namespace Room_Control__PC_
         int listeningState;
         //public bool voiceEnabled = true;
         //Speech Recognition and Synthesizer Constructors
-        SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine(new CultureInfo("en-US"));
+        public SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine(new CultureInfo("en-US"));
         public SpeechSynthesizer virtualAssistant = new SpeechSynthesizer();
         GrammarBuilder wakeWord = new GrammarBuilder();
         GrammarBuilder commandKeywords = new GrammarBuilder();
@@ -69,8 +70,8 @@ namespace Room_Control__PC_
         Grammar lightLevelGrammar;
         Grammar wakeWordGrammar;
         DictationGrammar mDictationGrammar;
-        string[] lightLevelStrings = new string[13] { "minimum", "ten percent", "twenty percent", "thirty perecent", "fourty percent", "fifty percent", "sixty percent",
-                "seventy percent", "eighty percent", "ninety percent", "one hundered percent", "full", "maximum"};
+        string[] lightLevelStrings = new string[14] { "minimum", "ten percent", "twenty percent", "thirty perecent", "fourty percent", "fifty percent", "sixty percent",
+                "seventy percent", "eighty percent", "ninety percent", "one hundered percent", "full", "maximum", "cancel"};
     //Sound Player
     System.Media.SoundPlayer soundPlayer = new System.Media.SoundPlayer();
 
@@ -82,15 +83,15 @@ namespace Room_Control__PC_
             //soundPlayer.Play();
             //Voice Command Definitions
             //Commands
-            commandDefinitions.Add(new string[] {"lights", "time", "date", "fan", "change fan speed", "cancel", "resume", "pause", "previous track", "next track",
-                "activate night protocol", "deactivate night protocol", "activate display", "deactivate display", "disable motion sensor", "enable motion sensor",
-                "disable ambient light sensor", "enable ambient light sensor", "change light level"});
+            commandDefinitions.Add(new string[] {"lights", "time", "date", "fan", "set fan speed", "cancel", "resume", "pause", "previous track", "next track",
+                "activate night mode", "deactivate night mode", "activate display", "deactivate display", "disable motion sensor", "enable motion sensor",
+                "disable ambient light sensor", "enable ambient light sensor", "set light level", "night mode", "sleep", "show console", "hide console"});
             commandKeywords.Append(commandDefinitions);
             commandGrammar = new Grammar(commandDefinitions);
             //recEngine.LoadGrammar(commandGrammar);
 
             //Fan speed Commands
-            fanSpeedDefinitions.Add(new string[] { "low speed", "medium", "high speed" });
+            fanSpeedDefinitions.Add(new string[] { "low speed", "medium", "high speed", "cancel" });
             fanSpeedKeywords.Append(fanSpeedDefinitions);
             fanSpeedGrammar = new Grammar(fanSpeedDefinitions);
             //recEngine.LoadGrammar(fanSpeedGrammar);
@@ -103,28 +104,41 @@ namespace Room_Control__PC_
             wakeWord.Append(WAKEWORD);
             wakeWordGrammar = new Grammar(wakeWord);
 
+            configureRecEngine();
+
+            //Sound Player Settings
+
+            //Virtual Assistant Settings
+            //printInstalledVoices();
+            virtualAssistant.SelectVoice("Microsoft Zira Desktop");
+            virtualAssistant.Volume = 100;
+
+            testSpeech();
+        }
+
+        public void configureRecEngine()
+        {
+            if (this.recEngine != null)
+            {
+                this.recEngine.Dispose();
+            }
+            this.recEngine = new SpeechRecognitionEngine(new CultureInfo("en-US"));
             //Speech Recognition Settings 
             recEngine.LoadGrammar(wakeWordGrammar);
             mDictationGrammar = new DictationGrammar("grammar:dictation#pronunciation");
             mDictationGrammar.Name = "Random";
             recEngine.LoadGrammar(mDictationGrammar);
             recEngine.MaxAlternates = 1;
-            //recEngine.BabbleTimeout = TimeSpan.FromSeconds(1);
+            //recEngine.BabbleTimeout = TimeSpan.FromSeconds(5);
             recEngine.SetInputToDefaultAudioDevice();
             recEngine.RecognizeAsync(RecognizeMode.Multiple);
             recEngine.SpeechRecognized += RecEngine_SpeechRecognized;
-
-            //Sound Player Settings
-
-            //Virtual Assistant Settings
-            virtualAssistant.SelectVoice("Microsoft Eva Mobile");
-            virtualAssistant.Volume = 100;
         }
 
         //Speech Engine Recognized Speech
         public void RecEngine_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            Debug.WriteLine("Recognized: " + e.Result.Text + " | Confidence: " + e.Result.Confidence + " | Listening For: " + listeningState);
+            Console.WriteLine("Recognized: " + e.Result.Text + " | Confidence: " + e.Result.Confidence + " | Listening For: " + listeningState);
             if (mGlobalVariables.voiceEnabled && e.Result.Grammar.Name != "Random") 
             {
                 if (listeningState == LWAKEWORD && e.Result.Text == WAKEWORD && e.Result.Confidence > .5)
@@ -136,14 +150,14 @@ namespace Room_Control__PC_
                     recEngine.UnloadGrammar(wakeWordGrammar);
                     recEngine.LoadGrammar(commandGrammar);
                 }
-                else if (listeningState == LCOMMAND && e.Result.Confidence > .9 && e.Result.Grammar == commandGrammar)
+                else if (listeningState == LCOMMAND && e.Result.Confidence > .94 && e.Result.Grammar == commandGrammar)
                 {
                     listeningState = LWAKEWORD;
                     mRoomInteractions.changeDeskBorderLEDState(27);
                     switch (e.Result.Text)
                     {
                         case "lights":
-                            mRoomInteractions.changeOverheadLightState(2);
+                            mRoomInteractions.changeOverheadLightState(State.TOGGLE);
                             playSoundSync(LIGHTSOUND);
                             Thread.Sleep(500);
                             break;
@@ -158,11 +172,10 @@ namespace Room_Control__PC_
 
                             break;
                         case "fan":
-                            mRoomInteractions.changeFanState(TOGGLE);
-                            playSoundSync(PLAYSOUND);
-                            Thread.Sleep(150);
+                            mRoomInteractions.changeFanState(State.TOGGLE);
+                            playSound(PLAYSOUND);
                             break;
-                        case "change fan speed":
+                        case "set fan speed":
                             listeningState = LFANSPEED;
                             virtualAssistant.Speak("state desired speed");
                             recEngine.LoadGrammar(fanSpeedGrammar);
@@ -189,22 +202,27 @@ namespace Room_Control__PC_
                             keybd_event(VK_MEDIA_NEXT_TRACK, 0, KEYEVENTF_EXTENTEDKEY, IntPtr.Zero);
                             playSoundSync(CHANGETRACKSOUND);
                             break;
-                        case "deactivate night protocol":
-                            playSoundSync(NIGHTPROTOCOLACTIVATED);
-                            mRoomInteractions.changeNightState(0);
+                        case "deactivate night mode":
+                            playSound(NIGHTPROTOCOLACTIVATED);
+                            mRoomInteractions.changeNightState(State.OFF);
                             //virtualAssistant.Speak("Night protocol deactivated");
                             break;
-                        case "activate night protocol":
-                            playSoundSync(NIGHTPROTOCOLACTIVATED);
-                            mRoomInteractions.changeNightState(1);
+                        case "activate night mode":
+                            playSound(NIGHTPROTOCOLACTIVATED);
+                            mRoomInteractions.changeNightState(State.ON);
+
                             //virtualAssistant.Speak("Night protocol activated");
                             break;
+                        case "night mode":
+                            mRoomInteractions.changeNightState(State.TOGGLE);
+                            playSound(NIGHTPROTOCOLACTIVATED);
+                            break;
                         case "deactivate display":
-                            mRoomInteractions.changeDisplayState(OFF);
+                            mRoomInteractions.changeDisplayState(State.OFF);
                             playSoundSync(DISPLAY);
                             break;
                         case "activate display":
-                            mRoomInteractions.changeDisplayState(ON);
+                            mRoomInteractions.changeDisplayState(State.ON);
                             virtualAssistant.Speak("Display activated");
                             break;
                         case "disable motion sensor":
@@ -227,11 +245,23 @@ namespace Room_Control__PC_
                             playSoundSync(CONFIRMINPUT);
                             //virtualAssistant.Speak("ambient light sensor enabled");
                             break;
-                        case "change light level":
+                        case "set light level":
                             listeningState = LDIMLIGHTS;
                             virtualAssistant.Speak("state desired brightness");
                             mRoomInteractions.changeDeskBorderLEDState(26);
                             recEngine.LoadGrammar(lightLevelGrammar);
+                            break;
+                        case "sleep":
+                            playSoundSync(LIGHTSOUND);
+                            mRoomInteractions.sleepPC();
+                            break;
+                        case "show console":
+                            Program.ShowWindow(Program.console, Program.SW_SHOW);
+                            playSound(PLAYSOUND);
+                            break;
+                        case "hide console":
+                            Program.ShowWindow(Program.console, Program.SW_HIDE);
+                            playSound(PAUSESOUND);
                             break;
                     }
                     if (listeningState == LWAKEWORD)
@@ -249,16 +279,19 @@ namespace Room_Control__PC_
                     switch (e.Result.Text)
                     {
                         case "low speed":
-                            mRoomInteractions.changeFanSpeed(1);
+                            mRoomInteractions.changeFanSpeed(FanSpeed.LOW);
                             //virtualAssistant.Speak("Fan speed set to low");
                             break;
                         case "medium":
-                            mRoomInteractions.changeFanSpeed(2);
+                            mRoomInteractions.changeFanSpeed(FanSpeed.MEDIUM);
                             //virtualAssistant.Speak("Fan speed set to medium");
                             break;
                         case "high speed":
-                            mRoomInteractions.changeFanSpeed(3);
+                            mRoomInteractions.changeFanSpeed(FanSpeed.HIGH);
                             //virtualAssistant.Speak("Fan speed set to high");
+                            break;
+                        case "cancel":
+                            playSound(CANCEL);
                             break;
                     }
                     listeningState = LWAKEWORD;
@@ -270,7 +303,7 @@ namespace Room_Control__PC_
                 else if(listeningState == LDIMLIGHTS && e.Result.Confidence > .9 && e.Result.Grammar == lightLevelGrammar)
                 {
                     mRoomInteractions.changeDeskBorderLEDState(27);
-                    for (int i = 0; i < 13; i++)
+                    for (int i = 0; i < 14; i++)
                     {
                         if (e.Result.Text == lightLevelStrings[i])
                         {
@@ -278,12 +311,17 @@ namespace Room_Control__PC_
                             {
                                 i = 1;
                             }
+                            else if(i == 13)
+                            {
+                                playSound(CANCEL);
+                                break;
+                            }
                             else if(i > 10)
                             {
                                 i = 10;
                             }
-                            mRoomInteractions.dimOverheadLight(mGlobalVariables.overheadLightDimmerValues[i]);
-                            playSoundSync(LIGHTSDIMMED);
+                            mRoomInteractions.changeOverheadLightBrightness(i*10);
+                            playSound(LIGHTSDIMMED);
                             //virtualAssistant.Speak("light level set to " + e.Result.Text);
                             break;
                         }
@@ -321,7 +359,7 @@ namespace Room_Control__PC_
 
         public void testSpeech()
         {
-            virtualAssistant.Speak("This is a test");
+            virtualAssistant.Speak("Voice recognition service initialized");
         }
 
         public void printInstalledVoices()

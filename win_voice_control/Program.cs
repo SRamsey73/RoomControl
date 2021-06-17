@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,105 +16,69 @@ namespace Room_Control__PC_
     {
         public static RoomInteractions mRoomInteractions;
         public static GlobalVariables mGlobalVariables = new GlobalVariables();
-        public static SerialPort basementArduinoSerialPort = new SerialPort();
-        public static SerialPort deskArduinoSerialPort = new SerialPort();
-        public static SerialPort esp32APSerialPort = new SerialPort();
-        //public static SerialPort phoneSerialPort = new SerialPort();
         public static VoiceRecognitionHandler mVoiceRecogniton;
+        public static RoomControllerInterface roomPi;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
 
         [STAThread]
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static IntPtr console = GetConsoleWindow();
+
+        public const int SW_HIDE = 0, SW_SHOW = 5;
+
         static void Main(string[] args)
         {
+            //ShowWindow(console, SW_HIDE);
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+            //SystemEvents.PowerModeChanged += OnPowerChange;
             Console.Clear();
             CommandLineInterface.printHeader();
             Console.Write("Program Initializing...");
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             Debug.WriteLine("Program Starting");
-            configureSerialPorts();
             mRoomInteractions = new RoomInteractions();
-            startBasementArduinoSerialInputHandler();
-            startDeskArduinoSerialInputHanlder();
-            //startBluetoothInputHandler();
-            startAPInputHandler();
             Thread.Sleep(350);
-            mRoomInteractions.syncForm();
-            Thread.Sleep(500);
-            mRoomInteractions.syncDeskArduino();
-            Thread.Sleep(250);
+            roomPi = new RoomControllerInterface("Room Pi", new IPEndPoint(IPAddress.Parse("169.254.44.49"), 7500));
             startVoiceRecognitionHandler();
             Console.Write("DONE\n");
             startCommandLineInterface();
-            //Application.Run(new Form1());
+            while(true);
+        }
+
+        static void OnProcessExit(object sender, EventArgs eventArgs)
+        {
+            Console.WriteLine("Exiting");
+            Thread.Sleep(1000);
         }
 
         static void startCommandLineInterface()
         {
             CommandLineInterface mCommandLineInterface = new CommandLineInterface();
-            //Thread commandLineInterfaceThread = new Thread(CommandLineInterface.commandLineInput);
-            //commandLineInterfaceThread.Start();
         }
         static void startVoiceRecognitionHandler()
         {
             mVoiceRecogniton = new VoiceRecognitionHandler();
         }
-        static void startBasementArduinoSerialInputHandler()
-        {
-            BasementArduinoSerialInputHandler mBasementArduinoSerialInput = new BasementArduinoSerialInputHandler();
-        }
-        static void startDeskArduinoSerialInputHanlder()
-        {
-            DeskArduinoSerialInputHandler mDeskArduinoSerialInputHandler = new DeskArduinoSerialInputHandler();
-        }
-        static void startAPInputHandler()
-        {
-            ESP32APInput mESP32APInput = new ESP32APInput(esp32APSerialPort);
-        }
 
-        static void configureSerialPorts()
+        private static void OnPowerChange(object s, PowerModeChangedEventArgs e)
         {
-            basementArduinoSerialPort.PortName = "COM3";
-            esp32APSerialPort.PortName = "COM5";
-            deskArduinoSerialPort.PortName = "COM6";
-            basementArduinoSerialPort.BaudRate = 9600;
-            deskArduinoSerialPort.BaudRate = 9600;
-            esp32APSerialPort.BaudRate = 9600;
-            basementArduinoSerialPort.WriteTimeout = 5;
-            while (!basementArduinoSerialPort.IsOpen)
+            switch (e.Mode)
             {
-                try
-                {
-                    basementArduinoSerialPort.Open();
-                }
-                catch (UnauthorizedAccessException)
-                {
-
-                }
-            }
-            try
-            {
-                deskArduinoSerialPort.Open();
-            }
-            catch(Exception)
-            {
-
-            }
-            try
-            {
-                esp32APSerialPort.Open();
-            }
-            catch(Exception)
-            {
-
+                case PowerModes.Resume:
+                    Console.WriteLine("Resume");
+                    mVoiceRecogniton.configureRecEngine();
+                    break;
+                case PowerModes.Suspend:
+                    break;
             }
         }
-        public static void displayOff()
-        {
 
-        }
     }
 }

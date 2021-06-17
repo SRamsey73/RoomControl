@@ -1,0 +1,114 @@
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Connection failed, retrying in 5s
+Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+
+Unhandled Exception: System.InvalidOperationException: Cannot find the requested data item, such as a data key or value.
+   at System.Speech.Recognition.RecognizerBase.SetInputToDefaultAudioDevice()
+   at Room_Control__PC_.VoiceRecognitionHandler..ctor() in I:\Projects\Room_Control\win_voice_control\Voice Recognition.cs:line 114
+   at Room_Control__PC_.Program.Main(String[] args) in I:\Projects\Room_Control\win_voice_control\Program.cs:line 36
+Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+DONE
+>Room Control Command Line Interface v1.0
+----------------------------------------
+Program Initializing...Socket connected to 169.254.44.49:7500
+DONE
+>

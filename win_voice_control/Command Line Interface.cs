@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Room_Control__PC_.RoomInteractions;
 
 namespace Room_Control__PC_
 {
@@ -24,7 +25,6 @@ namespace Room_Control__PC_
 
         //Variables
         String command;
-        String input;
 
         public CommandLineInterface() {
             Thread commandInputThread = new Thread(commandLineInput);
@@ -43,27 +43,42 @@ namespace Room_Control__PC_
                 //Deterime meaning of command
                 switch (command)
                 {
-                    case "sync":
-                        mRoomInteractions.syncAll();
-                        break;
                     case "lights":
-                        mRoomInteractions.changeOverheadLightState(TOGGLE);
+                        mRoomInteractions.changeOverheadLightState(State.TOGGLE);
                         break;
                     case "fan":
-                        mRoomInteractions.changeFanState(TOGGLE);
+                        mRoomInteractions.changeFanState(State.TOGGLE);
                         break;
                     case "fan speed":
                         Console.Write("Enter fan speed: ");
-                        int speed = Convert.ToInt32(Console.ReadLine());
-                        mRoomInteractions.changeFanSpeed(speed);
+                        FanSpeed? speed = null;
+                        while (speed == null)
+                        {
+                            switch (Console.ReadLine().ToLower())
+                            {
+                                case "low":
+                                    speed = FanSpeed.LOW;
+                                    break;
+                                case "medium":
+                                    speed = FanSpeed.MEDIUM;
+                                    break;
+                                case "high":
+                                    speed = FanSpeed.HIGH;
+                                    break;
+                                default:
+                                    Console.Write("Invalid state, try again: ");
+                                    break;
+                            }
+                        }
+                        mRoomInteractions.changeFanSpeed((FanSpeed) speed);
                         break;
                     case "light level":
                         Console.Write("Enter Light Level: ");
                         command = Console.ReadLine();
-                        mRoomInteractions.dimOverheadLight(255 * (Convert.ToInt32(command))/100);
+                        mRoomInteractions.changeOverheadLightBrightness(int.Parse(command));
                         break;
                     case "night":
-                        mRoomInteractions.changeNightState(2);
+                        mRoomInteractions.changeNightState(RoomInteractions.State.TOGGLE);
                         break;
                     case "display":
                         mRoomInteractions.changeDisplayState(0);
@@ -73,11 +88,16 @@ namespace Room_Control__PC_
                         command = Console.ReadLine();
                         mVoiceRecognition.virtualAssistant.SpeakAsync(command);
                         break;
+                    case "mic":
+                        Program.mVoiceRecogniton.configureRecEngine();
+                        Console.WriteLine("Input set to default audio device");
+                        break;
                     case "clear":
                         Console.Clear();
                         printHeader();
                         break;
-                    case "exit":
+                    case "quit":
+                        Program.roomPi.close();
                         System.Environment.Exit(1);
                         break;
                     default:

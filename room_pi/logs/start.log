@@ -1,16 +1,3 @@
-
-Traceback (most recent call last):
-  File "/home/pi/room_pi/main.py", line 174, in <module>
-    tablets = ControlInterface("tablets", 7500, tablet_read_actions)
-  File "/home/pi/room_pi/control_interface.py", line 8, in __init__
-    self.connection = SocketConnection(self.port)
-  File "/home/pi/room_pi/controller.py", line 73, in __init__
-    self.configure_listener()
-  File "/home/pi/room_pi/controller.py", line 83, in configure_listener
-    self.listener_socket.bind(('192.168.4.1', self.port))
-OSError: [Errno 99] Cannot assign requested address
-[H[2J[3JSmart Room Hub | Raspberry Pi
-=============================
-> [H[J[3JSmart Room Hub | Raspberry Pi
+[H[J[3JSmart Room Hub | Raspberry Pi
 =============================
 > 

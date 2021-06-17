@@ -1,0 +1,9 @@
+I:\Projects\Room_Control\win_voice_control\obj\Debug\Room Control (PC).exe
+I:\Projects\Room_Control\win_voice_control\obj\Debug\Room Control (PC).pdb
+I:\Projects\Room_Control\win_voice_control\obj\Debug\win_voice_control.csprojAssemblyReference.cache
+I:\Projects\Room_Control\win_voice_control\obj\Debug\Room_Control__PC_.Properties.Resources.resources
+I:\Projects\Room_Control\win_voice_control\obj\Debug\win_voice_control.csproj.GenerateResource.cache
+I:\Projects\Room_Control\win_voice_control\obj\Debug\win_voice_control.csproj.CoreCompileInputs.cache
+I:\Projects\Room_Control\win_voice_control\bin\Debug\Room Control (PC).exe.config
+I:\Projects\Room_Control\win_voice_control\bin\Debug\Room Control (PC).exe
+I:\Projects\Room_Control\win_voice_control\bin\Debug\Room Control (PC).pdb

@@ -1185,7 +1185,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnNightClock" />
 
         <ImageButton
-            android:id="@+id/btnDisplay"
+            android:id="@+id/btnSleepPC"
             android:layout_width="295px"
             android:layout_height="130px"
             android:layout_marginTop="14dp"
@@ -1200,27 +1200,27 @@
             android:layout_width="40px"
             android:layout_height="40px"
             android:src="@drawable/ic_indicator_color2"
-            app:layout_constraintStart_toStartOf="@+id/btnDisplay"
-            app:layout_constraintTop_toTopOf="@+id/btnDisplay" />
+            app:layout_constraintStart_toStartOf="@+id/btnSleepPC"
+            app:layout_constraintTop_toTopOf="@+id/btnSleepPC" />
 
         <ImageButton
-            android:id="@+id/btnDeskLEDs4"
+            android:id="@+id/btnWakePC"
             android:layout_width="295px"
             android:layout_height="130px"
             android:layout_marginTop="14dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_auxiliary_button_unpressed_color2"
-            app:layout_constraintEnd_toEndOf="@+id/btnDisplay"
-            app:layout_constraintTop_toBottomOf="@+id/btnDisplay" />
+            app:layout_constraintEnd_toEndOf="@+id/btnSleepPC"
+            app:layout_constraintTop_toBottomOf="@+id/btnSleepPC" />
 
         <ImageView
             android:id="@+id/imgNightIndicator7"
             android:layout_width="40px"
             android:layout_height="40px"
             android:src="@drawable/ic_indicator_color2"
-            app:layout_constraintStart_toStartOf="@+id/btnDeskLEDs4"
-            app:layout_constraintTop_toTopOf="@+id/btnDeskLEDs4" />
+            app:layout_constraintStart_toStartOf="@+id/btnWakePC"
+            app:layout_constraintTop_toTopOf="@+id/btnWakePC" />
 
         <TextView
             android:id="@+id/txtNight"
@@ -1249,18 +1249,32 @@
             app:layout_constraintEnd_toEndOf="@+id/btnNightClock" />
 
         <TextView
-            android:id="@+id/txtDisplay"
+            android:id="@+id/txtWakePC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="6dp"
             android:fontFamily="@font/control_freak"
-            android:text="DISPLAY"
+            android:text="WAKE PC"
             android:textAlignment="textEnd"
             android:textColor="#ffffff"
             android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnDisplay"
-            app:layout_constraintEnd_toEndOf="@+id/btnDisplay" />
+            app:layout_constraintBottom_toBottomOf="@+id/btnWakePC"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/txtSleepPC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/control_freak"
+            android:text="SLEEP PC"
+            android:textAlignment="textEnd"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnSleepPC"
+            app:layout_constraintEnd_toEndOf="@+id/btnSleepPC" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -1274,7 +1288,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btnNightProtocol2"
+            android:id="@+id/btnNotUsed1"
             android:layout_width="295px"
             android:layout_height="130px"
             android:layout_marginTop="14dp"
@@ -1289,8 +1303,8 @@
             android:layout_width="40px"
             android:layout_height="40px"
             android:src="@drawable/ic_indicator_color1"
-            app:layout_constraintStart_toStartOf="@+id/btnNightProtocol2"
-            app:layout_constraintTop_toTopOf="@+id/btnNightProtocol2" />
+            app:layout_constraintStart_toStartOf="@+id/btnNotUsed1"
+            app:layout_constraintTop_toTopOf="@+id/btnNotUsed1" />
 
         <ImageView
             android:id="@+id/imgNightIndicator5"
@@ -1388,7 +1402,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_auxiliary_rectangle_color2"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/btnNightProtocol2" />
+            app:layout_constraintTop_toBottomOf="@+id/btnNotUsed1" />
 
         <ImageView
             android:id="@+id/imageView2"

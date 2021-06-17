@@ -127,7 +127,8 @@ public class RoomUI extends Activity {
     TextView txtNight;
     TextView txtNightClockLabel;
     TextView txtDeskLEDs;
-    TextView txtDisplay;
+    TextView txtSleepPC;
+    TextView txtWakePC;
     TextView txtVoice;
     public ImageView imgNightIndicator;
     public ImageView imgDeskLEDIndicator;
@@ -135,7 +136,8 @@ public class RoomUI extends Activity {
     ImageButton btnNight;
     ImageButton btnNightClock;
     ImageButton btnDeskLEDs;
-    ImageButton btnDisplay;
+    ImageButton btnSleepPC;
+    ImageButton btnWakePC;
     ImageButton btnVoice;
     //Connection Panel
     View pnlConnectionLost;
@@ -332,7 +334,8 @@ public class RoomUI extends Activity {
         txtNightClockLabel = findViewById(R.id.txtNightClockLabel);
         txtDeskLEDs = findViewById(R.id.txtDeskLEDs);
         txtVoice = findViewById(R.id.txtVoice);
-        txtDisplay = findViewById(R.id.txtDisplay);
+        txtSleepPC = findViewById(R.id.txtSleepPC);
+        txtWakePC = findViewById(R.id.txtWakePC);
 
         imgNightIndicator = findViewById(R.id.imgNightIndicator);
         imgDeskLEDIndicator = findViewById(R.id.imgDeskLEDIndicator);
@@ -341,13 +344,15 @@ public class RoomUI extends Activity {
         btnNight = findViewById(R.id.btnNightProtocol);
         btnNightClock = findViewById(R.id.btnNightClock);
         btnDeskLEDs = findViewById(R.id.btnDeskLEDs);
-        btnDisplay = findViewById(R.id.btnDisplay);
+        btnSleepPC = findViewById(R.id.btnSleepPC);
+        btnWakePC = findViewById(R.id.btnWakePC);
         btnVoice = findViewById(R.id.btnVoice);
 
         txtNight.setTypeface(tfControlFreak);
         txtDeskLEDs.setTypeface(tfControlFreak);
         txtVoice.setTypeface(tfControlFreak);
-        txtDisplay.setTypeface(tfControlFreak);
+        txtSleepPC.setTypeface(tfControlFreak);
+        txtWakePC.setTypeface(tfControlFreak);
         txtNightClockLabel.setTypeface(tfControlFreak);
         nightClockLayout = findViewById(R.id.nightClockLayout);
     }
@@ -630,12 +635,21 @@ public class RoomUI extends Activity {
             }
         });
 
-        btnDisplay.setOnClickListener(new View.OnClickListener() {
+        btnSleepPC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fadeButton(btnDisplay);
+                fadeButton(btnSleepPC);
                 playKeyBeep(2);
-                wifiCommunication.send("display:off");
+                wifiCommunication.send("desktop_computer:sleep");
+            }
+        });
+
+        btnWakePC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fadeButton(btnWakePC);
+                playKeyBeep(2);
+                wifiCommunication.send("desktop_computer:wake_up");
             }
         });
 
@@ -934,7 +948,7 @@ public class RoomUI extends Activity {
             buttonDrawables[0] = getDrawable(R.drawable.ic_auxiliary_button_unpressed_color1);
             buttonDrawables[1] = getDrawable(R.drawable.ic_auxiliary_button_pressed_color1);
         }
-        else if(buttonPressed == btnDeskLEDs || buttonPressed == btnDisplay) {
+        else if(buttonPressed == btnDeskLEDs || buttonPressed == btnSleepPC || buttonPressed == btnWakePC) {
             buttonDrawables[0] = getDrawable(R.drawable.ic_auxiliary_button_unpressed_color2);
             buttonDrawables[1] = getDrawable(R.drawable.ic_auxiliary_button_pressed_color2);
         }
